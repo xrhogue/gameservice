@@ -1,4 +1,4 @@
-package com.bogie;
+package com.bogie.controller;
 
 import java.util.List;
 

@@ -20,6 +20,9 @@ import com.bogie.common.lib.model.EyeColor;
 import com.bogie.common.lib.model.HairColor;
 import com.bogie.common.lib.model.SkinColor;
 import com.bogie.common.lib.model.Stat;
+import com.bogie.controller.GameController;
+import com.bogie.controller.SkillController;
+import com.bogie.controller.StatController;
 import com.bogie.race.bus.RaceService;
 import com.bogie.race.bus.impl.RaceServiceImpl;
 import com.bogie.race.dao.PhysicalAppearanceDao;
@@ -36,6 +39,24 @@ import com.bogie.skill.lib.model.Skill;
 @EnableTransactionManagement
 public class AppConfig
 {
+    @Bean
+    public GameController gameController()
+    {
+        return new GameController();
+    }
+    
+    @Bean
+    public SkillController skillController()
+    {
+        return new SkillController();
+    }
+    
+    @Bean
+    public StatController statController()
+    {
+        return new StatController();
+    }
+
     @Bean
     public SkillService skillService()
     {
@@ -105,24 +126,25 @@ public class AppConfig
     @Bean
     public SessionFactory sessionFactory()
     {
-        return new LocalSessionFactoryBuilder(getDataSource()).addAnnotatedClasses(Skill.class).scanPackages("com.bogie.common.lib.model", "com.bogie.race.lib.model").buildSessionFactory();
+        return new LocalSessionFactoryBuilder(dataSource()).addAnnotatedClasses(Skill.class).scanPackages("com.bogie.common.lib.model", "com.bogie.race.lib.model").buildSessionFactory();
     }
 
     @Bean
-    public DataSource getDataSource()
+    public DataSource dataSource()
     {
         BasicDataSource dataSource = new BasicDataSource();
+        
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/game");
         dataSource.setUsername("root");
         dataSource.setPassword("root");
-
+        
         return dataSource;
     }
 
-//    @Bean
-//    public HibernateTransactionManager hibernateTransactionManager()
-//    {
-//        return new HibernateTransactionManager(sessionFactory());
-//    }
+    @Bean
+    public HibernateTransactionManager transactionManager()
+    {
+        return new HibernateTransactionManager(sessionFactory());
+    }
 }
