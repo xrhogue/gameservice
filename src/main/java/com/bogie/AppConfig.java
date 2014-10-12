@@ -4,12 +4,15 @@ import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.bogie.common.bus.CommonService;
 import com.bogie.common.bus.impl.CommonServiceImpl;
@@ -37,8 +40,15 @@ import com.bogie.skill.lib.model.Skill;
 
 @Configuration
 @EnableTransactionManagement
-public class AppConfig
-{
+@EnableWebMvc
+public class AppConfig extends WebMvcAutoConfigurationAdapter
+{       
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry)
+    {
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
+    }
+
     @Bean
     public GameController gameController()
     {
@@ -122,7 +132,7 @@ public class AppConfig
     {
         return new HibernateTemplate(sessionFactory());
     }
-
+    
     @Bean
     public SessionFactory sessionFactory()
     {

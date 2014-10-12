@@ -3,11 +3,11 @@ package com.bogie;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
-public class GameWebXml extends SpringBootServletInitializer {
-
+public class GameWebXml extends SpringBootServletInitializer
+{
     @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application)
+    {
         return application.sources(Application.class);
     }
-
 }

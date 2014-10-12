@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.bogie.AppConfig;
+import com.bogie.TestAppConfig;
 import com.bogie.common.lib.model.Stat;
 
 /**
@@ -15,7 +15,7 @@ import com.bogie.common.lib.model.Stat;
  * @version 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AppConfig.class})
+@ContextConfiguration(classes = {TestAppConfig.class})
 public class BaseControllerTest
 {
     public static final Character   PROPERTY_CODE_VALUE = 'X';
