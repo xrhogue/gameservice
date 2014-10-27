@@ -1,33 +1,10 @@
-(function(){
-	var app = angular.module('game', ['ngGrid', 'ui.bootstrap']);
-	
-	app.factory('StatService', function(){
-		var stats = [{
-			id: 1,
-			code: 'X',
-			shortForm: 'XXX',
-			longForm: 'Xxxxxx',
-			multiplier: 3
-		},
-		{
-			id: 2,
-			code: 'Y',
-			shortForm: 'YYY',
-			longForm: 'Yyyyyyy',
-			multiplier: 2
-
-		}];
-		
-		function getStats() {
-			return stats;
-		}
-		
-		function saveStat(stat) {
-			console.log("Saved");
-		}
-		
-		return {getStats : getStats, saveStat : saveStat};
-	});
+(function() {
+	var app = angular.module('game', ['ngGrid', 'ngResource', 'ui.bootstrap']);
+	app.factory('StatService', ['$http', '$log', '$resource', function($http, $log, $resource) {						
+		return $resource("http://localhost:8080/stat/:verb", {verb: 'list'}, {
+			getStats: {method: 'GET', isArray: true}
+		});
+	}]);
 	
 	app.controller('GameController', function() {
 	});
@@ -44,23 +21,22 @@
 		};
 	});
 	
-	app.controller('StatsController', ['$scope', '$modal', 'StatService', function($scope, $modal, statService) {
+	app.controller('StatsController', ['$scope', '$modal', '$log', 'StatService', function($scope, $modal, $log, statService) {
 		var cellTemplate='<div class="ngCellText" data-ng-model="row"><a data-ng-click="updateSelectedRow(row,$event)"><img alt="Edit" src="edit.png" height="16px" width="16px"/></a></div>';
+		$scope.stats = statService.query();
 		
-		$scope.stats = statService.getStats();
-		
-		$scope.$on('ngGridEventEndCellEdit', function(evt) {
-            statService.saveStat(evt.targetScope.row.entity);
-         });
+//		$scope.$on('ngGridEventEndCellEdit', function(evt) {
+//            statService.saveStat(evt.targetScope.row.entity);
+//         });
 		
 		$scope.gridOptions = {
 				data : 'stats',
 				columnDefs: [{field: 'id', displayName: 'Id', cellClass: 'gridCellNumberStyle'},
 				             {field: 'code', displayName: 'Code'},
-				             {field: 'shortForm', displayName: 'Short'},
-				             {field: 'longForm', displayName: 'Long'},
+				             {field: 'shortForm', displayName: 'Short Name'},
+				             {field: 'longForm', displayName: 'Long Name'},
 				             {field: 'multiplier', displayName: 'Multiplier', cellClass: 'gridCellNumberStyle'},
-				             {field: '', cellTemplate: cellTemplate}]
+				             {field: '', cellTemplate: cellTemplate, width: '32px'}]
 		};
 		
 		var dialog;
@@ -78,12 +54,6 @@
 		    	}
 		    });
 		}
-		
-	    $scope.save = function() {
-	    	console.log($modal);
-	    	$modal.dismiss('cancel');
-	    }
-
 	}]);
 	
 	var ModalInstanceCtrl = function ($scope, $modalInstance, item) {
@@ -96,7 +66,9 @@
 		  var multiplier = item.multiplier;
 
 		  $scope.ok = function () {
-			  $modalInstance.close();
+			  item.$save({verb: 'update', stat: item})
+			  
+			  $modalInstance.dismiss('cancel');
 		  };
 
 		  $scope.cancel = function () {
