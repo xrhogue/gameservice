@@ -53,8 +53,38 @@
 		    		}
 		    	}
 		    });
-		}
+		};
 	}]);
+	
+	app.directive('uppercase', function() {
+		return {
+			restrict: 'A',
+			require: 'ngModel',
+		    link: function(scope, element, attrs, modelCtrl) {
+		    	var uppercase = function(inputValue) {
+		           if (inputValue == undefined)
+		        	   inputValue = '';
+		           
+		           var uppercased = inputValue.toUpperCase();
+		           
+		           if (attrs.ngMaxlength != undefined && uppercased.length > attrs.ngMaxlength) {
+		        	   uppercased = uppercased.substr(0, attrs.ngMaxlength);
+		           }
+		           
+		           if (uppercased !== inputValue) {
+		        	   modelCtrl.$setViewValue(uppercased);
+		        	   modelCtrl.$render();
+		           }
+		           
+		           return uppercased;
+		    	}
+		    	
+		        modelCtrl.$parsers.push(uppercase);
+		         
+		        uppercase($parse(attrs.ngModel)(scope));  // capitalize initial value
+		    }
+		};
+	});
 	
 	var ModalInstanceCtrl = function ($scope, $modalInstance, item) {
 		  $scope.item = item;
@@ -68,7 +98,7 @@
 		  $scope.ok = function () {
 			  item.$save({verb: 'update', stat: item})
 			  
-			  $modalInstance.dismiss('cancel');
+			  $modalInstance.close(item);
 		  };
 
 		  $scope.cancel = function () {

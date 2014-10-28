@@ -11,3 +11,8 @@
 {
 	padding-right: 5px
 }
+
+.modal-body input.ng-invalid.ng-dirty
+{
+    background-color: #FA787E;
+}
