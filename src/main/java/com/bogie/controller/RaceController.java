@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bogie.race.bus.RaceService;
-import com.bogie.race.lib.model.Race;
-import com.bogie.race.lib.model.RaceComplexion;
+import com.bogie.race.model.Race;
+import com.bogie.race.model.RaceComplexion;
+import com.bogie.race.model.RaceEyeColor;
+import com.bogie.race.model.RaceHairColor;
+import com.bogie.race.service.RaceService;
 
 @RestController
 public class RaceController
@@ -52,5 +54,17 @@ public class RaceController
     public Set<RaceComplexion> getRaceComplexions(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getComplexions();
+    }
+    
+    @RequestMapping("/race/{id}/eyecolor/list")
+    public Set<RaceEyeColor> getRaceEyeColors(@PathVariable("id") Long id)
+    {
+        return raceService.getRace(id).getEyeColors();
+    }
+    
+    @RequestMapping("/race/{id}/haircolor/list")
+    public Set<RaceHairColor> getRaceHairColors(@PathVariable("id") Long id)
+    {
+        return raceService.getRace(id).getHairColors();
     }
 }

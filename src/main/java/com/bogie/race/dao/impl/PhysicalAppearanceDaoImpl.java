@@ -8,7 +8,7 @@ package com.bogie.race.dao.impl;
 import java.util.List;
 
 import com.bogie.common.dao.impl.GenericDaoImpl;
-import com.bogie.common.lib.model.PhysicalAttribute;
+import com.bogie.common.model.PhysicalAttribute;
 import com.bogie.race.dao.PhysicalAppearanceDao;
 
 public class PhysicalAppearanceDaoImpl<T extends PhysicalAttribute> extends GenericDaoImpl<Long, T> implements PhysicalAppearanceDao<T>

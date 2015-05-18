@@ -3,8 +3,10 @@ package com.bogie.common.dao.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bogie.common.dao.GenericDao;
@@ -13,32 +15,40 @@ import com.bogie.common.dao.GenericDao;
 public class GenericDaoImpl<I extends Serializable, T> implements GenericDao<I, T>
 {
     @Autowired
-    private HibernateTemplate   hibernateTemplate;
+    private EntityManager       entityManager;
     
-	public T get(Class<T> type, I id)
-    {
-        return (T)hibernateTemplate.get(type, id);
+	@SuppressWarnings("unchecked")
+    public T get(Class<T> type, I id)
+    {	    
+        return (T)getSession().get(type, id);
     }
 
-    public void saveOrUpdate(T value)
+    public T saveOrUpdate(T value)
     {
-        hibernateTemplate.saveOrUpdate(value);
+        getSession().saveOrUpdate(value);
+        
+        return value;
     }
 
     public void delete(T value)
     {
-        hibernateTemplate.delete(value);
+        getSession().delete(value);
     }
     
     @SuppressWarnings("unchecked")
 	public List<T> find(String query)
     {
-        return (List<T>)hibernateTemplate.find(query);
+        return (List<T>)getSession().createQuery(query).list();
     }
     
     @SuppressWarnings("unchecked")
 	public List<T> find(String query, Object value)
     {
-        return (List<T>)hibernateTemplate.find(query, value);
+        return (List<T>)getSession().createQuery(query).setProperties(value).list();
+    }
+    
+    private Session getSession()
+    {
+        return (Session)entityManager.getDelegate();
     }
 }

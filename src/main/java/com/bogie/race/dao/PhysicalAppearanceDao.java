@@ -8,7 +8,7 @@ package com.bogie.race.dao;
 import java.util.List;
 
 import com.bogie.common.dao.GenericDao;
-import com.bogie.common.lib.model.PhysicalAttribute;
+import com.bogie.common.model.PhysicalAttribute;
 
 /**
  * PhysicalAppearanceDao 

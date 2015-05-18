@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.bogie.common.dao.impl.GenericDaoImpl;
 import com.bogie.race.dao.RaceDao;
-import com.bogie.race.lib.model.Race;
+import com.bogie.race.model.Race;
 
 public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
 {

@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bogie.common.lib.model.Stat;
+import com.bogie.common.model.Stat;
 
 /**
  * @author rhogue
@@ -48,7 +48,7 @@ public class StatControllerTest extends BaseControllerTest
     }
 
     /**
-     * Test method for {@link com.bogie.controller.StatController#updateStat(com.bogie.common.lib.model.Stat)}.
+     * Test method for {@link com.bogie.controller.StatController#updateStat(com.bogie.common.model.Stat)}.
      */
     @Test
     public void testUpdateStat()

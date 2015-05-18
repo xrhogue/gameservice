@@ -8,7 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bogie.TestAppConfig;
-import com.bogie.common.lib.model.Stat;
+import com.bogie.common.model.Stat;
 
 /**
  * @author Richard Hogue

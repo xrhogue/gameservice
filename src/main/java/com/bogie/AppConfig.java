@@ -1,42 +1,38 @@
 package com.bogie;
 
-import javax.sql.DataSource;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.hibernate.SessionFactory;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
-import com.bogie.common.bus.CommonService;
-import com.bogie.common.bus.impl.CommonServiceImpl;
+import com.bogie.character.dao.CharacterDao;
+import com.bogie.character.dao.impl.CharacterDaoImpl;
+import com.bogie.character.service.CharacterService;
+import com.bogie.character.service.impl.CharacterServiceImpl;
 import com.bogie.common.dao.GenericDao;
 import com.bogie.common.dao.impl.GenericDaoImpl;
-import com.bogie.common.lib.model.Complexion;
-import com.bogie.common.lib.model.EyeColor;
-import com.bogie.common.lib.model.HairColor;
-import com.bogie.common.lib.model.SkinColor;
-import com.bogie.common.lib.model.Stat;
+import com.bogie.common.model.Complexion;
+import com.bogie.common.model.EyeColor;
+import com.bogie.common.model.HairColor;
+import com.bogie.common.model.SkinColor;
+import com.bogie.common.model.Stat;
+import com.bogie.common.service.CommonService;
+import com.bogie.common.service.impl.CommonServiceImpl;
 import com.bogie.controller.GameController;
 import com.bogie.controller.SkillController;
 import com.bogie.controller.StatController;
-import com.bogie.race.bus.RaceService;
-import com.bogie.race.bus.impl.RaceServiceImpl;
 import com.bogie.race.dao.PhysicalAppearanceDao;
 import com.bogie.race.dao.RaceDao;
 import com.bogie.race.dao.impl.PhysicalAppearanceDaoImpl;
 import com.bogie.race.dao.impl.RaceDaoImpl;
-import com.bogie.skill.bus.SkillService;
-import com.bogie.skill.bus.impl.SkillServiceImpl;
+import com.bogie.race.service.RaceService;
+import com.bogie.race.service.impl.RaceServiceImpl;
 import com.bogie.skill.dao.SkillDao;
 import com.bogie.skill.dao.impl.SkillDaoImpl;
-import com.bogie.skill.lib.model.Skill;
+import com.bogie.skill.service.SkillService;
+import com.bogie.skill.service.impl.SkillServiceImpl;
 
 @Configuration
 @EnableTransactionManagement
@@ -73,6 +69,12 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     {
         return new SkillServiceImpl();
     }
+
+    @Bean
+    public CharacterService characterService()
+    {
+        return new CharacterServiceImpl();
+    }
     
     @Bean
     public RaceService raceService()
@@ -96,6 +98,12 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     public RaceDao raceDao()
     {
         return new RaceDaoImpl();
+    }
+
+    @Bean
+    public CharacterDao characterDao()
+    {
+        return new CharacterDaoImpl();
     }
 
     @Bean
@@ -126,36 +134,5 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     public PhysicalAppearanceDao<EyeColor> eyeColorDao()
     {
         return new PhysicalAppearanceDaoImpl<EyeColor>();
-    }
-
-    @Bean
-    public HibernateTemplate hibernateTemplate()
-    {
-        return new HibernateTemplate(sessionFactory());
-    }
-    
-    @Bean
-    public SessionFactory sessionFactory()
-    {
-        return new LocalSessionFactoryBuilder(dataSource()).addAnnotatedClasses(Skill.class).scanPackages("com.bogie.common.lib.model", "com.bogie.race.lib.model").buildSessionFactory();
-    }
-
-    @Bean
-    public DataSource dataSource()
-    {
-        BasicDataSource dataSource = new BasicDataSource();
-        
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/game");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        
-        return dataSource;
-    }
-
-    @Bean
-    public HibernateTransactionManager transactionManager()
-    {
-        return new HibernateTransactionManager(sessionFactory());
     }
 }

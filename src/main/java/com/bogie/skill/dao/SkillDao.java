@@ -8,7 +8,7 @@ package com.bogie.skill.dao;
 import java.util.List;
 
 import com.bogie.common.dao.GenericDao;
-import com.bogie.skill.lib.model.Skill;
+import com.bogie.skill.model.Skill;
 
 /**
  * SkillDao 

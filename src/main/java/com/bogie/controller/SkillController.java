@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bogie.skill.bus.SkillService;
-import com.bogie.skill.lib.model.Skill;
+import com.bogie.skill.model.Skill;
+import com.bogie.skill.service.SkillService;
 
 @RestController
 public class SkillController

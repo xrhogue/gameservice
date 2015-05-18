@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bogie.common.bus.CommonService;
-import com.bogie.common.lib.model.Stat;
+import com.bogie.common.model.Stat;
+import com.bogie.common.service.CommonService;
 
 @RestController
 public class StatController

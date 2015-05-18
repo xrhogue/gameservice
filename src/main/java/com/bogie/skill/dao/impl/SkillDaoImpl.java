@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.bogie.common.dao.impl.GenericDaoImpl;
 import com.bogie.skill.dao.SkillDao;
-import com.bogie.skill.lib.model.Skill;
+import com.bogie.skill.model.Skill;
 
 /**
  * SkillDaoImpl 
@@ -28,7 +28,7 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
     }
     
     /**
-     * @see com.bogie.skill.dao.SkillDao#deleteSkill(com.bogie.skill.lib.model.Skill)
+     * @see com.bogie.skill.dao.SkillDao#deleteSkill(com.bogie.skill.model.Skill)
      */
     public void deleteSkill(Skill skill)
     {
@@ -44,7 +44,7 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
     }
 
     /**
-     * @see com.bogie.skill.dao.SkillDao#findSkills(com.bogie.skill.lib.model.Skill)
+     * @see com.bogie.skill.dao.SkillDao#findSkills(com.bogie.skill.model.Skill)
      */
     public List<Skill> findSkills(Skill parent)
     {
@@ -78,7 +78,7 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
     }
 
     /**
-     * @see com.bogie.skill.dao.SkillDao#saveSkill(com.bogie.skill.lib.model.Skill)
+     * @see com.bogie.skill.dao.SkillDao#saveSkill(com.bogie.skill.model.Skill)
      */
     public Skill saveSkill(Skill skill)
     {

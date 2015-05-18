@@ -3,30 +3,29 @@
  */
 package com.bogie;
 
-import javax.sql.DataSource;
-
-import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.bogie.common.dao.GenericDao;
+import com.bogie.common.dao.impl.GenericDaoImpl;
+import com.bogie.common.model.Stat;
 
 /**
  * @author rhogue
  *
  */
-@Configuration
 @EnableTransactionManagement
-public class TestAppConfig extends AppConfig
+@EnableAutoConfiguration
+@PropertySource(value = {
+        "classpath:testapplication.properties"
+    })
+public class TestAppConfig
 {
-    @Override
-    public DataSource dataSource()
+    @Bean
+    public GenericDao<Long, Stat> statDao()
     {
-        BasicDataSource dataSource = new BasicDataSource();
-        
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/gametest");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-        
-        return dataSource;
+        return new GenericDaoImpl<Long, Stat>();
     }
 }

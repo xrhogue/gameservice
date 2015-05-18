@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bogie.skill.lib.model.Skill;
+import com.bogie.skill.model.Skill;
 
 public class SkillControllerTest extends BaseControllerTest
 {

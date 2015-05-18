@@ -7,15 +7,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.bogie.AppConfig;
+import com.bogie.TestAppConfig;
 import com.bogie.common.dao.GenericDao;
-import com.bogie.common.lib.model.Stat;
+import com.bogie.common.model.Stat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {AppConfig.class})
-@WebAppConfiguration
+@ContextConfiguration(classes=TestAppConfig.class)
 public class GenericDaoImplTest
 {
     @Autowired
@@ -24,7 +22,11 @@ public class GenericDaoImplTest
     @Test
     public void testGet()
     {
-        Stat    stat = statDao.get(Stat.class, 1L);
+        Stat    stat = statDao.saveOrUpdate(new Stat());
+        
+        assertNotNull(stat);
+        
+        stat = statDao.get(Stat.class, stat.getId());
         
         assertNotNull(stat);
     }
@@ -39,7 +41,14 @@ public class GenericDaoImplTest
         stat.setShortForm("XXX");
         stat.setMultiplier(1);
         
-        statDao.saveOrUpdate(stat);
+        stat = statDao.saveOrUpdate(stat);
+        
+        Stat    savedStat = statDao.get(Stat.class, stat.getId());
+        
+        assertEquals(stat.getCode(), savedStat.getCode());
+        assertEquals(stat.getShortForm(), savedStat.getShortForm());
+        assertEquals(stat.getLongForm(), savedStat.getLongForm());
+        assertEquals(stat.getMultiplier(), savedStat.getMultiplier());
     }
 
     @Test
@@ -59,5 +68,4 @@ public class GenericDaoImplTest
     {
         fail("Not yet implemented");
     }
-
 }

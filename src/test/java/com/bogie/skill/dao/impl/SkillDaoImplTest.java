@@ -12,9 +12,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.bogie.AppConfig;
 import com.bogie.common.dao.GenericDao;
-import com.bogie.common.lib.model.Stat;
+import com.bogie.common.model.Stat;
 import com.bogie.skill.dao.SkillDao;
-import com.bogie.skill.lib.model.Skill;
+import com.bogie.skill.model.Skill;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {AppConfig.class})
