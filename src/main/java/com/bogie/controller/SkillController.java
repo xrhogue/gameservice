@@ -42,6 +42,6 @@ public class SkillController
     @RequestMapping("/skill/list")
     public List<Skill> getSkills(@RequestParam(value="filter", required=false, defaultValue="") String filter)
     {
-        return skillService.findAllSkills();
+        return skillService.findSkills();
     }
 }

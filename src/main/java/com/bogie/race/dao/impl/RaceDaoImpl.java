@@ -22,7 +22,24 @@ public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
     }
 
     /**
-     * @see com.bogie.race.dao.RaceDao#deleteRace(com.bogie.race.lib.vo.Race)
+     * @see com.bogie.race.dao.RaceDao#saveRace(com.bogie.race.model.Race)
+     */
+    public Race saveRace(Race race)
+    {
+        return saveOrUpdate(race);
+    }
+
+    /**
+     * @see com.bogie.race.dao.RaceDao#deleteRace(java.lang.Long)
+     */
+    @Override
+    public void deleteRace(Long id)
+    {
+        delete(getRace(id));
+    }
+
+    /**
+     * @see com.bogie.race.dao.RaceDao#deleteRace(com.bogie.race.model.Race)
      */
     public void deleteRace(Race race)
     {
@@ -30,15 +47,28 @@ public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
     }
 
     /**
-     * @see com.bogie.race.dao.RaceDao#saveRace(com.bogie.race.lib.vo.Race)
+     * @see com.bogie.race.dao.RaceDao#findRaces()
      */
-    public void saveRace(Race race)
+    public List<Race> findRaces()
     {
-        saveOrUpdate(race);
+        return find("from Race");
     }
 
     /**
-     * @see com.bogie.race.dao.RaceDao#findRaces(com.bogie.race.lib.vo.Race)
+     * @see com.bogie.race.dao.RaceDao#findRaces(java.lang.Long)
+     */
+    public List<Race> findRaces(Long parentId)
+    {
+        if (parentId == null)
+        {
+            return find("from Race as race where race.parent is null");
+        }
+        
+        return find("from Race as race where race.parent=:id", new Race(parentId));
+    }
+
+    /**
+     * @see com.bogie.race.dao.RaceDao#findRaces(com.bogie.race.model.Race)
      */
     public List<Race> findRaces(Race parent)
     {
@@ -47,14 +77,10 @@ public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
             return find("from Race as race where race.parent is null");
         }
         
-        return find("from Race as race where race.parent=?", parent);
-    }
-
-    /**
-     * @see com.bogie.race.dao.RaceDao#findAllRaces()
-     */
-    public List<Race> findAllRaces()
-    {
-        return find("from Race");
+        Race    race = new Race();
+        
+        race.setParent(parent);
+        
+        return find("from Race as race where race.parent=:parent", race);
     }
 }

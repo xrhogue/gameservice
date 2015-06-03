@@ -23,7 +23,7 @@ public interface SkillDao extends GenericDao<Long, Skill>
     void deleteSkill(Skill skill);
     void deleteSkill(Long skillId);
     
+    List<Skill> findSkills();
     List<Skill> findSkills(Long parentId);
     List<Skill> findSkills(Skill parent);
-    List<Skill> findAllSkills();
 }

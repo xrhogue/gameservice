@@ -2,25 +2,35 @@ package com.bogie.common.dao.impl;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bogie.BaseTest;
 import com.bogie.TestAppConfig;
 import com.bogie.common.dao.GenericDao;
 import com.bogie.common.model.Stat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes=TestAppConfig.class)
-public class GenericDaoImplTest
+public class GenericDaoImplTest extends BaseTest
 {
     @Autowired
     GenericDao<Long, Stat>   statDao;
-
+    
+    @Before
+    public void setUp() throws Exception
+    {
+        resetCommonDatabase();
+    }
+    
     @Test
-    public void testGet()
+    public void testGetStat()
     {
         Stat    stat = statDao.saveOrUpdate(new Stat());
         
@@ -32,17 +42,9 @@ public class GenericDaoImplTest
     }
 
     @Test
-    public void testSaveOrUpdate()
+    public void testSaveOrUpdateStat()
     {
-        Stat    stat = new Stat();
-        
-        stat.setCode('X');
-        stat.setLongForm("XXXXXX");
-        stat.setShortForm("XXX");
-        stat.setMultiplier(1);
-        
-        stat = statDao.saveOrUpdate(stat);
-        
+        Stat    stat = statDao.saveOrUpdate(getStat());
         Stat    savedStat = statDao.get(Stat.class, stat.getId());
         
         assertEquals(stat.getCode(), savedStat.getCode());
@@ -52,20 +54,36 @@ public class GenericDaoImplTest
     }
 
     @Test
-    public void testDelete()
+    public void testDeleteStat()
     {
-        fail("Not yet implemented");
+        Stat    stat = statDao.saveOrUpdate(new Stat());
+        
+        assertNotNull(stat);
+        
+        statDao.delete(stat);
+        
+        assertNull(statDao.get(Stat.class, stat.getId()));
     }
 
     @Test
-    public void testFindString()
+    public void testFindStat()
     {
-        fail("Not yet implemented");
+        statDao.saveOrUpdate(getStat());        
+        List<Stat>  stats = statDao.find("from Stat");
+        
+        assertNotNull(stats);
+        assertEquals(1, stats.size());
+        assertEquals(STAT_CODE_VALUE, stats.get(0).getCode());
     }
 
     @Test
-    public void testFindStringObject()
+    public void testFindStatFilter()
     {
-        fail("Not yet implemented");
+        Stat        stat = statDao.saveOrUpdate(getStat());        
+        List<Stat>  stats = statDao.find("from Stat where code = :code", stat);
+        
+        assertNotNull(stats);
+        assertEquals(1, stats.size());
+        assertEquals(STAT_CODE_VALUE, stats.get(0).getCode());
     }
 }

@@ -6,8 +6,8 @@
 package com.bogie.skill.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -48,10 +49,10 @@ public class Skill implements Serializable
     @Column(nullable=false)
     private String  name;
     
-    @Column
+    @Column(name="short_name")
     private String  shortName;
     
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     private Skill   parent;
     
     @ManyToOne
@@ -61,29 +62,40 @@ public class Skill implements Serializable
     @Column(nullable=false)
     private Boolean selectable = true;
     
-    @Column(nullable=false)
+    @Column(name="base_cost", nullable=false)
     private Integer baseCost = 3;
     
-    @Column(nullable=false)
+    @Column(name="level_cost", nullable=false)
     private Integer levelCost = 3;
     
-    @ManyToOne(optional=false)
+    @ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn(name="primary_stat_id")
     private Stat    primaryStat;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="parent", fetch=FetchType.EAGER)
-    private Set<Skill>  children = new HashSet<Skill>();
+    private List<Skill> children = new ArrayList<Skill>();
     
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Stat>   secondaryStats = new HashSet<Stat>();
+    @JoinTable(name="skill_secondary_stats", joinColumns=@JoinColumn(name="skill_id"), inverseJoinColumns=@JoinColumn(name="stat_id"))
+    private List<Stat>  secondaryStats = new ArrayList<Stat>();
     
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Skill> prerequisites = new HashSet<Skill>();
+    @JoinTable(name="skill_prerequisites", joinColumns=@JoinColumn(name="skill_id"), inverseJoinColumns=@JoinColumn(name="prerequisite_id"))
+    private List<Skill> prerequisites = new ArrayList<Skill>();
     
     /**
      * Default constructor
      */
     public Skill()
     {
+    }
+    
+    /**
+     * Default constructor
+     */
+    public Skill(final Long id)
+    {
+        this.id = id;
     }
 
     /**
@@ -250,7 +262,7 @@ public class Skill implements Serializable
     /**
      * @return the secondaryStats
      */
-    public Set<Stat> getSecondaryStats()
+    public List<Stat> getSecondaryStats()
     {
         return secondaryStats;
     }
@@ -258,7 +270,7 @@ public class Skill implements Serializable
     /**
      * @param secondaryStats the secondaryStats to set
      */
-    public void setSecondaryStats(Set<Stat> secondaryStats)
+    public void setSecondaryStats(List<Stat> secondaryStats)
     {
         this.secondaryStats = secondaryStats;
     }
@@ -282,7 +294,7 @@ public class Skill implements Serializable
     /**
      * @return the children
      */
-    public Set<Skill> getChildren()
+    public List<Skill> getChildren()
     {
         return children;
     }
@@ -290,7 +302,7 @@ public class Skill implements Serializable
     /**
      * @param children the children to set
      */
-    public void setChildren(Set<Skill> children)
+    public void setChildren(List<Skill> children)
     {
         this.children = children;
     }
@@ -307,7 +319,7 @@ public class Skill implements Serializable
     /**
      * @return the prerequisites
      */
-    public Set<Skill> getPrerequisites()
+    public List<Skill> getPrerequisites()
     {
         return prerequisites;
     }
@@ -315,7 +327,7 @@ public class Skill implements Serializable
     /**
      * @param prerequisites the prerequisites to set
      */
-    public void setPrerequisites(Set<Skill> prerequisites)
+    public void setPrerequisites(List<Skill> prerequisites)
     {
         this.prerequisites = prerequisites;
     }

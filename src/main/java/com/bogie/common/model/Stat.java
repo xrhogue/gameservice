@@ -36,16 +36,16 @@ public class Stat implements Serializable
     private Long version;
     
     @Column
-    private char code;
+    private Character code;
     
-    @Column
+    @Column(name="short_form")
     private String  shortForm;
     
-    @Column
+    @Column(name="long_form")
     private String  longForm;
     
     @Column
-    private int multiplier;
+    private Integer multiplier;
     
     /**
      * Default constructor
@@ -89,7 +89,7 @@ public class Stat implements Serializable
     /**
      * @return the code
      */
-    public char getCode()
+    public Character getCode()
     {
         return code;
     }
@@ -97,7 +97,7 @@ public class Stat implements Serializable
     /**
      * @param code the code to set
      */
-    public void setCode(char code)
+    public void setCode(Character code)
     {
         this.code = code;
     }
@@ -153,7 +153,7 @@ public class Stat implements Serializable
     /**
      * @return the multiplier
      */
-    public int getMultiplier()
+    public Integer getMultiplier()
     {
         return multiplier;
     }
@@ -161,7 +161,7 @@ public class Stat implements Serializable
     /**
      * @param multiplier the multiplier to set
      */
-    public void setMultiplier(int multiplier)
+    public void setMultiplier(Integer multiplier)
     {
         this.multiplier = multiplier;
     }

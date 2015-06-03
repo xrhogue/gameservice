@@ -26,24 +26,31 @@ war {
     archiveName = 'gameservice.war'
 }
 
-task copyWar (dependsOn: war, type: Copy) {
-	from('build/libs') {
-		include '*.war'
-	}
-
-	into 'C:/Program Files/Apache Software Foundation/Tomcat 7.0/webapps'
-}
-
 repositories {
     mavenLocal()
     mavenCentral()
     maven { url "http://repo.spring.io/libs-release" }
 }
 
+configurations {
+//	compile.exclude group: 'org.slf4j'
+//	compile.exclude group: 'org.jboss.logging'
+	compile.exclude group: 'ch.qos.logback'
+	compile.exclude module: 'logback-classic'
+	compile.exclude module: 'jcl-over-slf4j'
+	compile.exclude module: 'jul-to-slf4j'
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
    	compile("org.springframework.boot:spring-boot-starter-data-jpa:1.1.4.RELEASE")
+   	compile('org.springframework.boot:spring-boot-starter-log4j:1.2.3.RELEASE')
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+   	//compile('org.springframework.security:spring-security-core:4.0.1.RELEASE')
+    compile("org.springframework:spring-test:4+")
   	compile('org.hibernate:hibernate-core:4.3.8.Final')
+  	compile('org.hibernate:hibernate-c3p0:4.3.8.Final')
+  	compile('com.mchange:c3p0:0.9.5')
   	compile('org.hibernate:hibernate-entitymanager:4.3.8.Final')
    	compile("javax.servlet:javax.servlet-api:3.1.0")
    	//compile("org.slf4j:slf4j-simple:1.7.7")
@@ -51,8 +58,10 @@ dependencies {
    	compile("mysql:mysql-connector-java:5.1.+")
    	compile('org.apache.commons:commons-lang3:3.+')
    	compile("commons-dbcp:commons-dbcp:1.4") 
-    compile("org.springframework:spring-test:4+")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+   	compile('com.google.code.gson:gson:2.3.+')
+   	compile('commons-logging:commons-logging:1.2')
+   	compile('org.slf4j:slf4j-log4j12:1.7.12')
+   	compile('log4j:log4j:1.2.+')
     testCompile("junit:junit")
 }
 

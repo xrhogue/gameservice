@@ -31,6 +31,14 @@ public class SkillServiceImpl implements SkillService
     {
         return skillDao.getSkill(skillId);
     }
+
+    /**
+     * @see com.bogie.skill.service.SkillService#saveSkill(com.bogie.skill.lib.vo.Skill)
+     */
+    public Skill saveSkill(Skill skill)
+    {
+        return skillDao.saveSkill(skill);
+    }
     
     /**
      * @see com.bogie.skill.service.SkillService#deleteSkill(com.bogie.skill.lib.vo.Skill)
@@ -65,18 +73,10 @@ public class SkillServiceImpl implements SkillService
     }
 
     /**
-     * @see com.bogie.skill.service.SkillService#findAllSkills()
+     * @see com.bogie.skill.service.SkillService#findSkills()
      */
-    public List<Skill> findAllSkills()
+    public List<Skill> findSkills()
     {
-        return skillDao.findAllSkills();
-    }
-
-    /**
-     * @see com.bogie.skill.service.SkillService#saveSkill(com.bogie.skill.lib.vo.Skill)
-     */
-    public Skill saveSkill(Skill skill)
-    {
-        return skillDao.saveSkill(skill);
+        return skillDao.findSkills();
     }
 }

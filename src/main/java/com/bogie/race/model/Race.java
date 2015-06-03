@@ -4,14 +4,15 @@
 package com.bogie.race.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,8 +32,7 @@ public class Race implements Serializable
 	private static final long serialVersionUID = -3214017671150454948L;
 
 	@Id
-    @GeneratedValue
-    @Column(nullable=false)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     
     @Version
@@ -49,28 +49,36 @@ public class Race implements Serializable
     private boolean selectable;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="parent")
-    private Set<Race>  children = new HashSet<Race>();
+    private List<Race>  children = new ArrayList<Race>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
-    private Set<RaceSkinColor>  skinColors = new HashSet<RaceSkinColor>();
+    private List<RaceSkinColor>  skinColors = new ArrayList<RaceSkinColor>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
-    private Set<RaceHairColor>  hairColors = new HashSet<RaceHairColor>();
+    private List<RaceHairColor>  hairColors = new ArrayList<RaceHairColor>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
-    private Set<RaceEyeColor>   eyeColors = new HashSet<RaceEyeColor>();
+    private List<RaceEyeColor>   eyeColors = new ArrayList<RaceEyeColor>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
-    private Set<RaceComplexion> complexions = new HashSet<RaceComplexion>();
+    private List<RaceComplexion> complexions = new ArrayList<RaceComplexion>();
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
-    private Set<RaceStat> raceStats = new HashSet<RaceStat>();
+    private List<RaceStat> raceStats = new ArrayList<RaceStat>();
     
     /**
      * Default constructor
      */
     public Race()
     {
+    }
+    
+    /**
+     * Default constructor
+     */
+    public Race(final Long id)
+    {
+        this.id = id;
     }
 
     /**
@@ -148,7 +156,7 @@ public class Race implements Serializable
     /**
      * @return the children
      */
-    public Set<Race> getChildren()
+    public List<Race> getChildren()
     {
         return children;
     }
@@ -156,7 +164,7 @@ public class Race implements Serializable
     /**
      * @param children the children to set
      */
-    public void setChildren(Set<Race> children)
+    public void setChildren(List<Race> children)
     {
         this.children = children;
     }
@@ -173,7 +181,7 @@ public class Race implements Serializable
     /**
      * @return the skinColors
      */
-    public Set<RaceSkinColor> getSkinColors()
+    public List<RaceSkinColor> getSkinColors()
     {
         return skinColors;
     }
@@ -181,7 +189,7 @@ public class Race implements Serializable
     /**
      * @param skinColors the skinColors to set
      */
-    public void setSkinColors(Set<RaceSkinColor> skinColors)
+    public void setSkinColors(List<RaceSkinColor> skinColors)
     {
         this.skinColors = skinColors;
     }
@@ -198,7 +206,7 @@ public class Race implements Serializable
     /**
      * @return the hairColors
      */
-    public Set<RaceHairColor> getHairColors()
+    public List<RaceHairColor> getHairColors()
     {
         return hairColors;
     }
@@ -206,7 +214,7 @@ public class Race implements Serializable
     /**
      * @param hairColors the hairColors to set
      */
-    public void setHairColors(Set<RaceHairColor> hairColors)
+    public void setHairColors(List<RaceHairColor> hairColors)
     {
         this.hairColors = hairColors;
     }
@@ -223,7 +231,7 @@ public class Race implements Serializable
     /**
      * @return the eyeColors
      */
-    public Set<RaceEyeColor> getEyeColors()
+    public List<RaceEyeColor> getEyeColors()
     {
         return eyeColors;
     }
@@ -231,7 +239,7 @@ public class Race implements Serializable
     /**
      * @param eyeColors the eyeColors to set
      */
-    public void setEyeColors(Set<RaceEyeColor> eyeColors)
+    public void setEyeColors(List<RaceEyeColor> eyeColors)
     {
         this.eyeColors = eyeColors;
     }
@@ -248,7 +256,7 @@ public class Race implements Serializable
     /**
      * @return the complexions
      */
-    public Set<RaceComplexion> getComplexions()
+    public List<RaceComplexion> getComplexions()
     {
         return complexions;
     }
@@ -256,7 +264,7 @@ public class Race implements Serializable
     /**
      * @param complexions the complexions to set
      */
-    public void setComplexions(Set<RaceComplexion> complexions)
+    public void setComplexions(List<RaceComplexion> complexions)
     {
         this.complexions = complexions;
     }
@@ -273,7 +281,7 @@ public class Race implements Serializable
     /**
      * @return the raceStats
      */
-    public Set<RaceStat> getRaceStats()
+    public List<RaceStat> getRaceStats()
     {
         return raceStats;
     }
@@ -281,7 +289,7 @@ public class Race implements Serializable
     /**
      * @param raceStats the raceStats to set
      */
-    public void setRaceStats(Set<RaceStat> raceStats)
+    public void setRaceStats(List<RaceStat> raceStats)
     {
         this.raceStats = raceStats;
     }

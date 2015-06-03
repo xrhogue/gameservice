@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+   	<session-factory>
+   	<property name="hibernate.dialect">[use config.properties to set]</property>
+   	<property name="hibernate.connection.driver_class">[use config.properties to set]</property>
+   	<property name="hibernate.connection.url">[use config.properties to set]</property>
+   	<property name="hibernate.connection.username">[use config.properties to set]</property>
+   	<property name="hibernate.connection.password">[use config.properties to set]</property>
+	<property name="hibernate.current_session_context_class">thread</property>
+
+	<property name="c3p0.min_size">5</property>
+	<property name="c3p0.max_size">20</property>
+	<property name="c3p0.timeout">1800</property>
+	<property name="c3p0.max_statements">50</property>
+	<property name="connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+
+   	<property name="show_sql">false</property>
+   	
+   	<mapping class="com.bogie.common.model.Complexion"/>
+   	<mapping class="com.bogie.common.model.EyeColor"/>
+   	<mapping class="com.bogie.common.model.Gender"/>
+   	<mapping class="com.bogie.common.model.HairColor"/>
+   	<mapping class="com.bogie.common.model.SkinColor"/>
+   	<mapping class="com.bogie.common.model.Stat"/>
+   	<mapping class="com.bogie.race.model.Race"/>
+   	<mapping class="com.bogie.race.model.RaceAge"/>
+   	<mapping class="com.bogie.race.model.RaceComplexion"/>
+   	<mapping class="com.bogie.race.model.RaceEyeColor"/>
+   	<mapping class="com.bogie.race.model.RaceHairColor"/>
+   	<mapping class="com.bogie.race.model.RaceSkinColor"/>
+   	<mapping class="com.bogie.race.model.RaceStat"/>
+
+	</session-factory>
+</hibernate-configuration>

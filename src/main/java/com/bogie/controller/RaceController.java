@@ -1,7 +1,6 @@
 package com.bogie.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,23 +46,23 @@ public class RaceController
     @RequestMapping("/race/list")
     public List<Race> getRaces(@RequestParam(value="filter", required=false, defaultValue="") String filter)
     {
-        return raceService.findAllRaces();
+        return raceService.findRaces();
     }
     
     @RequestMapping("/race/{id}/complexion/list")
-    public Set<RaceComplexion> getRaceComplexions(@PathVariable("id") Long id)
+    public List<RaceComplexion> getRaceComplexions(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getComplexions();
     }
     
     @RequestMapping("/race/{id}/eyecolor/list")
-    public Set<RaceEyeColor> getRaceEyeColors(@PathVariable("id") Long id)
+    public List<RaceEyeColor> getRaceEyeColors(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getEyeColors();
     }
     
     @RequestMapping("/race/{id}/haircolor/list")
-    public Set<RaceHairColor> getRaceHairColors(@PathVariable("id") Long id)
+    public List<RaceHairColor> getRaceHairColors(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getHairColors();
     }

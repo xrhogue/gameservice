@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -28,8 +29,7 @@ public class RaceStat implements Serializable
 	private static final long serialVersionUID = -6199015334739815094L;
 
 	@Id
-    @GeneratedValue
-    @Column(nullable=false)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     
     @ManyToOne(optional=false)
@@ -38,14 +38,14 @@ public class RaceStat implements Serializable
     @ManyToOne(optional=false)
     private Race    race;
     
-    @ManyToOne
+    @ManyToOne(optional=false)
     private Stat    stat;
     
     @Column(nullable=false)
-    private int minimum;
+    private Integer minimum;
     
     @Column(nullable=false)
-    private int maximum;
+    private Integer maximum;
     
     /**
      * Default constructor
@@ -121,7 +121,7 @@ public class RaceStat implements Serializable
     /**
      * @return the maximum
      */
-    public int getMaximum()
+    public Integer getMaximum()
     {
         return maximum;
     }
@@ -129,7 +129,7 @@ public class RaceStat implements Serializable
     /**
      * @param maximum the maximum to set
      */
-    public void setMaximum(int maximum)
+    public void setMaximum(Integer maximum)
     {
         this.maximum = maximum;
     }
@@ -137,7 +137,7 @@ public class RaceStat implements Serializable
     /**
      * @return the minimum
      */
-    public int getMinimum()
+    public Integer getMinimum()
     {
         return minimum;
     }
@@ -145,9 +145,8 @@ public class RaceStat implements Serializable
     /**
      * @param minimum the minimum to set
      */
-    public void setMinimum(int minimum)
+    public void setMinimum(Integer minimum)
     {
         this.minimum = minimum;
     }
-    
 }

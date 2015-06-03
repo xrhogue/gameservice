@@ -19,14 +19,10 @@ import com.bogie.race.model.Race;
 public interface RaceDao extends GenericDao<Long, Race>
 {
     Race getRace(Long raceId);
-    void saveRace(Race race);
+    Race saveRace(Race race);
+    void deleteRace(Long id);
     void deleteRace(Race race);
-    
-    /**
-     * Retrieves the list of races based on the parent race
-     * @param parent the parent race
-     * @return the list of child races
-     */
+    List<Race>  findRaces();
     List<Race>  findRaces(Race parent);
-    List<Race>  findAllRaces();
+    List<Race>  findRaces(Long parentid);
 }

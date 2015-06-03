@@ -32,6 +32,7 @@ public class GenericDaoImpl<I extends Serializable, T> implements GenericDao<I, 
 
     public void delete(T value)
     {
+        getSession().refresh(value);
         getSession().delete(value);
     }
     

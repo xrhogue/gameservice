@@ -24,5 +24,5 @@ public interface SkillService
     
     List<Skill> findSkills(Long parentId);
     List<Skill> findSkills(Skill parent);
-    List<Skill> findAllSkills();
+    List<Skill> findSkills();
 }

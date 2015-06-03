@@ -29,7 +29,6 @@ public class RacePhysicalAttribute<T extends PhysicalAttribute> implements Physi
 
 	@Id
     @GeneratedValue
-    @Column(nullable=false)
     private int id;
     
     @ManyToOne

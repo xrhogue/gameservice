@@ -26,6 +26,14 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
     {
         return get(Skill.class, skillId);
     }
+
+    /**
+     * @see com.bogie.skill.dao.SkillDao#saveSkill(com.bogie.skill.model.Skill)
+     */
+    public Skill saveSkill(Skill skill)
+    {
+        return saveOrUpdate(skill);
+    }
     
     /**
      * @see com.bogie.skill.dao.SkillDao#deleteSkill(com.bogie.skill.model.Skill)
@@ -44,6 +52,14 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
     }
 
     /**
+     * @see com.bogie.skill.dao.SkillDao#findSkills()
+     */
+    public List<Skill> findSkills()
+    {
+        return find("from Skill");
+    }
+
+    /**
      * @see com.bogie.skill.dao.SkillDao#findSkills(com.bogie.skill.model.Skill)
      */
     public List<Skill> findSkills(Skill parent)
@@ -53,7 +69,11 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
             return find("from Skill as skill where skill.parent is null");
         }
         
-        return find("from Skill as skill where skill.parent=?", parent);
+        Skill   skill = new Skill();
+        
+        skill.setParent(parent);
+        
+        return find("from Skill as skill where skill.parent=:parent", skill);
     }
 
     /**
@@ -65,25 +85,7 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
         {
             return find("from Skill as skill where skill.parent is null");
         }
-        
-        return find("from Skill as skill where skill.parent.id=?", parentId);
-    }
 
-    /**
-     * @see com.bogie.skill.dao.SkillDao#findAllSkills()
-     */
-    public List<Skill> findAllSkills()
-    {
-        return find("from Skill");
-    }
-
-    /**
-     * @see com.bogie.skill.dao.SkillDao#saveSkill(com.bogie.skill.model.Skill)
-     */
-    public Skill saveSkill(Skill skill)
-    {
-        saveOrUpdate(skill);
-        
-        return skill;
+        return find("from Skill as skill where skill.parent.id=:id", new Skill(parentId));
     }
 }
