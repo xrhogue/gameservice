@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import com.bogie.common.model.Stat;
 
 /**
@@ -31,8 +34,61 @@ public class CharacterStat implements Serializable
     private Long id;
 
     @ManyToOne
+    @Cascade(CascadeType.PERSIST)
     private Stat    stat;
     
     @Column
     private Integer value;
+    
+    public CharacterStat()
+    {        
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * @return the stat
+     */
+    public Stat getStat()
+    {
+        return stat;
+    }
+
+    /**
+     * @param stat the stat to set
+     */
+    public void setStat(Stat stat)
+    {
+        this.stat = stat;
+    }
+
+    /**
+     * @return the value
+     */
+    public Integer getValue()
+    {
+        return value;
+    }
+
+    /**
+     * @param value the value to set
+     */
+    public void setValue(Integer value)
+    {
+        this.value = value;
+    }
 }

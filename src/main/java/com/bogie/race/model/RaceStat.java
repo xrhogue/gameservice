@@ -5,6 +5,7 @@ package com.bogie.race.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,13 +33,13 @@ public class RaceStat implements Serializable
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;
     
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, cascade=CascadeType.ALL)
     private Gender  gender;
     
     @ManyToOne(optional=false)
     private Race    race;
     
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, cascade=CascadeType.ALL)
     private Stat    stat;
     
     @Column(nullable=false)

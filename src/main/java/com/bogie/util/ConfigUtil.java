@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.bogie.common.service.HibernateService;
-
 /**
  * ConfigUtil
  *
@@ -21,17 +20,17 @@ import com.bogie.common.service.HibernateService;
  */
 public class ConfigUtil
 {
-    public static final String  ACCOUNT_ID_PROPERTY = "account_id";
-    public static final String  API_KEY_PROPERTY = "api_key";
-
+    public static final String  DATABASE_TYPE_PROPERTY = "database_type";
     public static final String  DIALECT_PROPERTY = "dialect";
     public static final String  DRIVER_CLASS_PROPERTY = "driver_class";
-    public static final String  CONNECTION_URL_PROPERTY = "connection_url";
+    public static final String  HOST_PROPERTY = "host";
+    public static final String  PORT_PROPERTY = "port";
     public static final String  DATABASE_PROPERTY = "database";
+    public static final String  CONNECTION_URL_PROPERTY = "connection_url";
     public static final String  USER_NAME_PROPERTY = "user_name";
     public static final String  PASSWORD_PROPERTY = "password";
 
-    public static final String  WEB_SOCKET_DEBUG_PROPERTY = "web_socket_debug";
+    public static final String  PIPELINE_DEBUG_PROPERTY = "pipeline_debug";
 
     public static final String  DIALECT_DEFAULT = "org.hibernate.dialect.MySQLDialect";
 
@@ -40,7 +39,10 @@ public class ConfigUtil
 
     protected static final Logger   logger = Logger.getLogger(ConfigUtil.class);
     
-    private String  propertiesFileName;
+    private static Properties  properties;
+
+    private String      propertiesFileName;
+    private Properties  localProperties;
     
     /**
      * Default constructor
@@ -60,12 +62,54 @@ public class ConfigUtil
     }
     
     /**
+     * Constructor
+     * 
+     * @param properties the properties to use for configuration
+     */
+    public ConfigUtil(final Properties properties)
+    {
+        this.localProperties = properties;
+    }
+    
+    /**
+     * Sets the global properties
+     * @param properties the global properties, or null to reset them with next call to get properties
+     */
+    public static void setProperties(final Properties properties)
+    {
+        ConfigUtil.properties = properties;
+    }
+    
+    /**
+     * Sets the global properties
+     * @param propertiesFileName the global properties file, or null to reset them with next call to get properties
+     */
+    public static void setProperties(final String propertiesFileName)
+    {
+        if (StringUtils.isBlank(propertiesFileName))
+        {
+            ConfigUtil.properties = null;
+            
+            return;
+        }
+        
+        ConfigUtil.properties = getProperties(propertiesFileName);
+    }
+    
+    /**
      * Gets the properties located in the default properties file
      * @return a Properties object containing the name-value pairs of properties
      */
     public static Properties getProperties()
     {
-        return getProperties(DEFAULT_CONFIG_PROPERTIES_FILE_NAME);
+        if (properties != null)
+        {
+            return properties;
+        }
+        
+        properties = getProperties(DEFAULT_CONFIG_PROPERTIES_FILE_NAME);
+        
+        return properties;
     }    
     
     /**
@@ -79,7 +123,7 @@ public class ConfigUtil
         
         if (propertiesFile == null)
         {
-            return null;
+            return new Properties();
         }
         
         Properties  properties = new Properties();
@@ -92,7 +136,7 @@ public class ConfigUtil
         {
             logger.error("Error reading properties file '" + propertiesFileName + "': " + e.getMessage(), e);
             
-            return null;
+            return new Properties();
         }
         
         return properties;
@@ -115,7 +159,12 @@ public class ConfigUtil
      */
     public String getLocalProperty(final String property)
     {
-        return getProperty(propertiesFileName, property, null);
+        if (StringUtils.isNotBlank(propertiesFileName))
+        {
+            return getProperty(propertiesFileName, property, null);
+        }
+        
+        return getProperty(localProperties, property, null);
     }
     
     /**
@@ -137,7 +186,12 @@ public class ConfigUtil
      */
     public String getLocalProperty(final String property, final String defaultValue)
     {
-        return getProperty(propertiesFileName, property, defaultValue);
+        if (StringUtils.isNotBlank(propertiesFileName))
+        {
+            return getProperty(propertiesFileName, property, defaultValue);
+        }
+        
+        return getProperty(localProperties, property, defaultValue);
     }
     
     /**
@@ -153,6 +207,18 @@ public class ConfigUtil
     }
     
     /**
+     * Gets a property from the named configuration file
+     * @param properties the properties containing the properties
+     * @param property the property to retrieve
+     * @param defaultValue the default value of the property if not set
+     * @return the property value if set, or the default value
+     */
+    public static String getProperty(final Properties properties, final String property, final String defaultValue)
+    {
+        return properties.getProperty(property, defaultValue);
+    }
+    
+    /**
      * Gets the root connection url string (excluding the database name)
      * @param connectionUrl the full connection url string
      * @return the root connection url string
@@ -164,6 +230,13 @@ public class ConfigUtil
             return connectionUrl;
         }
         
+        int propertySeparator = connectionUrl.lastIndexOf(";");
+        
+        if (propertySeparator > 0)
+        {
+            return connectionUrl.substring(0, propertySeparator);
+        }
+
         int lastSeparator = connectionUrl.lastIndexOf("/");
         
         if (lastSeparator <= 0)
@@ -189,6 +262,13 @@ public class ConfigUtil
         if (StringUtils.isBlank(connectionUrl))
         {
             return null;
+        }
+        
+        int propertySeparator = connectionUrl.lastIndexOf("=");
+        
+        if (propertySeparator > 0)
+        {
+            return connectionUrl.substring(propertySeparator + 1);
         }
         
         int lastSeparator = connectionUrl.lastIndexOf("/");
@@ -241,7 +321,12 @@ public class ConfigUtil
      */
     public Properties getLocalOverrideProperties(final String databaseName)
     {
-        return getDefaultOverrideProperties(propertiesFileName, databaseName);
+        if (StringUtils.isNotBlank(propertiesFileName))
+        {
+            return getDefaultOverrideProperties(propertiesFileName, databaseName);
+        }
+        
+        return getDefaultOverrideProperties(localProperties, databaseName);
     }
     
     /**
@@ -252,21 +337,32 @@ public class ConfigUtil
      */
     public static Properties getDefaultOverrideProperties(final String propertiesFileName, final String databaseName)
     {
-        Properties  properties = new Properties();
-        String      url = ConfigUtil.getProperty(propertiesFileName, ConfigUtil.CONNECTION_URL_PROPERTY, null);
+        return getDefaultOverrideProperties(getProperties(propertiesFileName), databaseName);
+    }
+    
+    /**
+     * Gets the default hibernate override properties modified by a specific database name
+     * @param properties the properties
+     * @param databaseName the database name to use with the override properties
+     * @return the hibernate override properties
+     */
+    public static Properties getDefaultOverrideProperties(final Properties properties, final String databaseName)
+    {
+        Properties  overrideProperties = new Properties();
+        String      url = properties.getProperty(ConfigUtil.CONNECTION_URL_PROPERTY);
         
         if (StringUtils.isNotBlank(databaseName))
         {
             url = getRootConnectionUrl(url) + "/" + databaseName;
         }
         
-        overrideProperty(properties, HibernateService.DIALECT_PROPERTY, ConfigUtil.getProperty(propertiesFileName, ConfigUtil.DIALECT_PROPERTY, null));
-        overrideProperty(properties, HibernateService.DRIVER_CLASS_PROPERTY, ConfigUtil.getProperty(propertiesFileName, ConfigUtil.DRIVER_CLASS_PROPERTY, null));
-        overrideProperty(properties, HibernateService.URL_PROPERTY, url);
-        overrideProperty(properties, HibernateService.USER_NAME_PROPERTY, ConfigUtil.getProperty(propertiesFileName, ConfigUtil.USER_NAME_PROPERTY, null));
-        overrideProperty(properties, HibernateService.PASSWORD_PROPERTY, ConfigUtil.getProperty(propertiesFileName, ConfigUtil.PASSWORD_PROPERTY, null));
+        overrideProperty(overrideProperties, HibernateService.DIALECT_PROPERTY, properties.getProperty(ConfigUtil.DIALECT_PROPERTY));
+        overrideProperty(overrideProperties, HibernateService.DRIVER_CLASS_PROPERTY, properties.getProperty(ConfigUtil.DRIVER_CLASS_PROPERTY));
+        overrideProperty(overrideProperties, HibernateService.URL_PROPERTY, url);
+        overrideProperty(overrideProperties, HibernateService.USER_NAME_PROPERTY, properties.getProperty(ConfigUtil.USER_NAME_PROPERTY));
+        overrideProperty(overrideProperties, HibernateService.PASSWORD_PROPERTY, properties.getProperty(ConfigUtil.PASSWORD_PROPERTY));
         
-        return properties;
+        return overrideProperties;
     }
     
     public static String getCustomPropertiesFileName(final Properties overrideProperties) throws IOException

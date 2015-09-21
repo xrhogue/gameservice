@@ -20,20 +20,20 @@ public class GenericDaoImpl<I extends Serializable, T> implements GenericDao<I, 
 	@SuppressWarnings("unchecked")
     public T get(Class<T> type, I id)
     {	    
-        return (T)getSession().get(type, id);
+    	return (T)getSession().get(type, id);
     }
 
     public T saveOrUpdate(T value)
     {
         getSession().saveOrUpdate(value);
-        
+
         return value;
     }
 
     public void delete(T value)
     {
         getSession().refresh(value);
-        getSession().delete(value);
+		getSession().delete(value);
     }
     
     @SuppressWarnings("unchecked")

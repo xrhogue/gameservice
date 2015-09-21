@@ -16,9 +16,15 @@ public class Column
 {
     public enum Type
     {
+        BIT(Types.BIT),
         STRING(Types.VARCHAR),
+        VARCHAR(Types.VARCHAR),
         LONGTEXT(Types.CLOB),
+        LONGBLOB(Types.BLOB),
+        INT(Types.INTEGER),
         INTEGER(Types.INTEGER),
+        BIGINT(Types.BIGINT),
+        FLOAT(Types.FLOAT),
         DOUBLE(Types.DOUBLE),
         DATETIME(Types.TIMESTAMP),
         DATE(Types.DATE),
@@ -37,24 +43,31 @@ public class Column
         }
     };
     
+    
     private String  name;
+    private String  label;
     private Type    type = Type.UNKNOWN;
     private Integer length = -1;
     
     public Column(final String name)
     {
-        this.name = name;
+        this(name, null, Type.UNKNOWN, -1);
     }
     
     public Column(final String name, final Type type)
     {
-        this.name = name;
-        this.type = type;
+        this(name, null, type, -1);
     }
     
     public Column(final String name, final Type type, final Integer length)
     {
+        this(name, null, type, length);
+    }
+    
+    public Column(final String name, final String label, final Type type, final Integer length)
+    {
         this.name = name;
+        this.label = label;
         this.type = type;
         this.length = length;
     }
@@ -75,7 +88,24 @@ public class Column
         this.name = name;
     }
 
+	/**
+     * @return the label
+     */
+    public String getLabel()
+    {
+		return label;
+	}
+
+
     /**
+     * @param label the label to set
+     */
+	public void setLabel(String label)
+	{
+		this.label = label;
+	}
+
+	/**
      * @return the type
      */
     public Type getType()

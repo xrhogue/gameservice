@@ -73,7 +73,7 @@ public class GenericDaoImplTest extends BaseTest
         
         assertNotNull(stats);
         assertEquals(1, stats.size());
-        assertEquals(STAT_CODE_VALUE, stats.get(0).getCode());
+        assertEquals(STAT_CODE_VALUE, stats.get(0).getCode().charValue());
     }
 
     @Test
@@ -84,6 +84,6 @@ public class GenericDaoImplTest extends BaseTest
         
         assertNotNull(stats);
         assertEquals(1, stats.size());
-        assertEquals(STAT_CODE_VALUE, stats.get(0).getCode());
+        assertEquals(STAT_CODE_VALUE, stats.get(0).getCode().charValue());
     }
 }

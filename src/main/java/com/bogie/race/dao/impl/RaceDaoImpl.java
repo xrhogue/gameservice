@@ -43,7 +43,7 @@ public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
      */
     public void deleteRace(Race race)
     {
-        delete(race);
+        deleteRace(race.getId());
     }
 
     /**
@@ -64,7 +64,7 @@ public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
             return find("from Race as race where race.parent is null");
         }
         
-        return find("from Race as race where race.parent=:id", new Race(parentId));
+        return find("from Race as race where race.parent.id=:id", new Race(parentId));
     }
 
     /**

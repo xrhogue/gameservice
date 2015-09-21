@@ -17,7 +17,8 @@ import com.bogie.character.model.Character;
 public interface CharacterDao extends GenericDao<Long, Character>
 {
     public Character getCharacter(Long characterId);
-    public void saveCharacter(Character character);
+    public Character saveCharacter(Character character);
+    public void deleteCharacter(Long characterId);
     public void deleteCharacter(Character character);
     
     /**

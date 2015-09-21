@@ -18,7 +18,7 @@ import com.bogie.race.model.Race;
 public interface RaceService
 {
     Race getRace(Long raceId);
-    void saveRace(Race race);
+    Race saveRace(Race race);
     void deleteRace(Long raceId);
     void deleteRace(Race race);
     List<Race> findRaces();

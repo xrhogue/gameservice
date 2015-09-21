@@ -2,11 +2,19 @@ package com.bogie.controller;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.bogie.TestAppConfig;
 import com.bogie.skill.model.Skill;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestAppConfig.class})
 public class SkillControllerTest extends BaseControllerTest
 {
     @Autowired
@@ -15,7 +23,9 @@ public class SkillControllerTest extends BaseControllerTest
     @Test
     public void testGetSkill()
     {
-        Skill   skill = skillController.getSkill(3L);
+        skillController.updateSkill(getSkill());
+        
+        Skill   skill = skillController.getSkill(1L);
         
         assertNotNull(skill);
     }
@@ -23,12 +33,11 @@ public class SkillControllerTest extends BaseControllerTest
     @Test
     public void testGetSkills()
     {
-        fail("Not yet implemented");
-    }
+        skillController.updateSkill(getSkill());
 
-    @Test
-    public void testGetRaces()
-    {
-        fail("Not yet implemented");
+        List<Skill> skills = skillController.getSkills(null);
+        
+        assertNotNull(skills);
+        assertTrue(skills.size() > 0);
     }
 }

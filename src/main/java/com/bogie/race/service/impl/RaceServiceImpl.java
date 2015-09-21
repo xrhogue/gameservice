@@ -61,9 +61,9 @@ public class RaceServiceImpl implements RaceService
     /**
      * @see com.bogie.race.service.RaceService#saveRace(com.bogie.race.model.Race)
      */
-    public void saveRace(Race race)
+    public Race saveRace(Race race)
     {
-        raceDao.saveRace(race);
+        return raceDao.saveRace(race);
     }
 
     /**

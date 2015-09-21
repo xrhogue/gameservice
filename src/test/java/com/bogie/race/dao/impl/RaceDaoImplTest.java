@@ -9,18 +9,23 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.bogie.BaseTest;
+import com.bogie.TestAppConfig;
 import com.bogie.race.dao.RaceDao;
 import com.bogie.race.model.Race;
-import com.bogie.skill.dao.SkillDao;
 
 /**
  * RaceDaoImplTest
  *
  * @author Richard Hogue
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes=TestAppConfig.class)
 public class RaceDaoImplTest extends BaseTest
 {  
     @Autowired
@@ -143,5 +148,17 @@ public class RaceDaoImplTest extends BaseTest
         assertNotNull(races);
         assertEquals(1, races.size());
         assertEquals(race.getId(), races.get(0).getId());
+
+        race = getRace();
+        
+        race.setParent(parent);
+        
+        race = raceDao.saveRace(race);
+        
+        races = raceDao.findRaces(race.getParent());
+        
+        assertNotNull(races);
+        assertEquals(2, races.size());
+        assertEquals(race.getId(), races.get(1).getId());
     }
 }

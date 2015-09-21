@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import com.bogie.skill.model.Skill;
 
 /**
@@ -31,8 +34,61 @@ public class CharacterSkill implements Serializable
     private Long id;
 
     @ManyToOne
+    @Cascade(CascadeType.PERSIST)
     private Skill   skill;
     
-    @Column
+    @Column(name="base_level")
     private Integer baseLevel;
+    
+    public CharacterSkill()
+    {     
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId()
+    {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    /**
+     * @return the skill
+     */
+    public Skill getSkill()
+    {
+        return skill;
+    }
+
+    /**
+     * @param skill the skill to set
+     */
+    public void setSkill(Skill skill)
+    {
+        this.skill = skill;
+    }
+
+    /**
+     * @return the baseLevel
+     */
+    public Integer getBaseLevel()
+    {
+        return baseLevel;
+    }
+
+    /**
+     * @param baseLevel the baseLevel to set
+     */
+    public void setBaseLevel(Integer baseLevel)
+    {
+        this.baseLevel = baseLevel;
+    }
 }

@@ -13,6 +13,7 @@ import com.bogie.race.model.Race;
 import com.bogie.race.model.RaceComplexion;
 import com.bogie.race.model.RaceEyeColor;
 import com.bogie.race.model.RaceHairColor;
+import com.bogie.race.model.RaceSkinColor;
 import com.bogie.race.service.RaceService;
 
 @RestController
@@ -32,15 +33,21 @@ public class RaceController
     }
     
     @RequestMapping("/race/update")
-    public void updateRace(@RequestBody Race race)
+    public Race updateRace(@RequestBody Race race)
     {
-        raceService.saveRace(race);
+        return raceService.saveRace(race);
     }
     
     @RequestMapping("/race/delete")
     public void deleteRace(@RequestParam(value="id", required=true) Long id)
     {
         raceService.deleteRace(id);
+    }
+    
+    @RequestMapping("/race/list")
+    public List<Race> getRaces()
+    {
+        return raceService.findRaces();
     }
     
     @RequestMapping("/race/list")
@@ -65,5 +72,11 @@ public class RaceController
     public List<RaceHairColor> getRaceHairColors(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getHairColors();
+    }
+    
+    @RequestMapping("/race/{id}/skincolor/list")
+    public List<RaceSkinColor> getRaceSkinColors(@PathVariable("id") Long id)
+    {
+        return raceService.getRace(id).getSkinColors();
     }
 }

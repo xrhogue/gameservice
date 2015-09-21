@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
@@ -21,12 +22,10 @@ public class PhysicalAppearance<T> implements PhysicalAttribute, Serializable
 	private static final long serialVersionUID = 4768861523162303083L;
 
 	@Id
-    @GeneratedValue
-    @Column(nullable=false)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     
     @Version
-    @Column
     private Long version;
     
     @Column

@@ -3,10 +3,9 @@
  */
 package com.bogie.controller;
 
-import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bogie.BaseTest;
 import com.bogie.TestAppConfig;
 import com.bogie.common.model.Stat;
 
@@ -14,9 +13,8 @@ import com.bogie.common.model.Stat;
  * @author Richard Hogue
  * @version 1.0
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestAppConfig.class})
-public class BaseControllerTest
+public class BaseControllerTest extends BaseTest
 {
     public static final Character   PROPERTY_CODE_VALUE = 'X';
     public static final String      PROPERTY_SHORT_FORM_VALUE = "XXX";

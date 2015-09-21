@@ -63,7 +63,7 @@ public class CommonServiceImplTest extends BaseTest
         Stat    stat = commonService.getStat(commonService.saveStat(getStat()).getId());
         
         assertNotNull(stat);
-        assertEquals(STAT_CODE_VALUE, stat.getCode());
+        assertEquals(STAT_CODE_VALUE, stat.getCode().charValue());
         assertEquals(STAT_LONG_FORM_VALUE, stat.getLongForm());
         assertEquals(STAT_SHORT_FORM_VALUE, stat.getShortForm());
         assertEquals(STAT_MULTIPLIER_VALUE.intValue(), stat.getMultiplier().intValue());
@@ -79,7 +79,7 @@ public class CommonServiceImplTest extends BaseTest
         
         assertNotNull(stat);
         assertNotNull(stat.getId());
-        assertEquals(STAT_CODE_VALUE, stat.getCode());
+        assertEquals(STAT_CODE_VALUE, stat.getCode().charValue());
         assertEquals(STAT_LONG_FORM_VALUE, stat.getLongForm());
         assertEquals(STAT_SHORT_FORM_VALUE, stat.getShortForm());
         assertEquals(STAT_MULTIPLIER_VALUE.intValue(), stat.getMultiplier().intValue());        
@@ -426,10 +426,10 @@ public class CommonServiceImplTest extends BaseTest
     @Test
     public void testGetSkinColor()
     {
-        SkinColor  hairColor = commonService.getSkinColor(commonService.saveSkinColor(getSkinColor()).getId());
+        SkinColor  skinColor = commonService.getSkinColor(commonService.saveSkinColor(getSkinColor()).getId());
         
-        assertNotNull(hairColor);
-        assertEquals(HAIR_COLOR_NAME_VALUE, hairColor.getName());
+        assertNotNull(skinColor);
+        assertEquals(SKIN_COLOR_NAME_VALUE, skinColor.getName());
     }
 
     /**
@@ -438,11 +438,11 @@ public class CommonServiceImplTest extends BaseTest
     @Test
     public void testSaveSkinColor()
     {
-        SkinColor  hairColor = commonService.saveSkinColor(getSkinColor());
+        SkinColor  skinColor = commonService.saveSkinColor(getSkinColor());
         
-        assertNotNull(hairColor);
-        assertNotNull(hairColor.getId());
-        assertEquals(HAIR_COLOR_NAME_VALUE, hairColor.getName());
+        assertNotNull(skinColor);
+        assertNotNull(skinColor.getId());
+        assertEquals(SKIN_COLOR_NAME_VALUE, skinColor.getName());
     }
 
     /**

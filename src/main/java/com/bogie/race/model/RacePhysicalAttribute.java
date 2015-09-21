@@ -5,12 +5,14 @@ package com.bogie.race.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.bogie.common.model.Gender;
 import com.bogie.common.model.PhysicalAttribute;
@@ -32,12 +34,13 @@ public class RacePhysicalAttribute<T extends PhysicalAttribute> implements Physi
     private int id;
     
     @ManyToOne
+    @Cascade(CascadeType.SAVE_UPDATE)
     private Gender  gender;
     
     @ManyToOne(optional=false)
     private Race    race;
     
-    @ManyToOne(optional=false, cascade=CascadeType.PERSIST)
+    @Transient
     private T physicalAttribute;
     
     /**

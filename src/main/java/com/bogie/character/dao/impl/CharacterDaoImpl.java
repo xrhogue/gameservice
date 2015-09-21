@@ -24,15 +24,24 @@ public class CharacterDaoImpl extends GenericDaoImpl<Long, Character> implements
      */
     public void deleteCharacter(Character character)
     {
-        delete(character);
+        deleteCharacter(character.getId());
+    }
+
+    /**
+     * @see com.bogie.character.dao.CharacterDao#deleteCharacter(java.lang.Long)
+     */
+    @Override
+    public void deleteCharacter(Long characterId)
+    {
+        delete(getCharacter(characterId));
     }
 
     /**
      * @see com.bogie.character.dao.CharacterDao#saveCharacter(com.bogie.character.lib.vo.Character)
      */
-    public void saveCharacter(Character character)
+    public Character saveCharacter(Character character)
     {
-        saveOrUpdate(character);
+        return saveOrUpdate(character);
     }
 
     /**
@@ -40,6 +49,6 @@ public class CharacterDaoImpl extends GenericDaoImpl<Long, Character> implements
      */
     public List<Character> findCharacters()
     {        
-        return find("from Character as character where character.parent=?");
+        return find("from Character");
     }
 }

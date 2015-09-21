@@ -5,7 +5,12 @@ package com.bogie.race.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.bogie.common.model.HairColor;
@@ -41,6 +46,9 @@ public class RaceHairColor extends RacePhysicalAttribute<HairColor> implements S
     /**
      * @return the hairColor
      */
+    @ManyToOne(optional=false, cascade=CascadeType.ALL)
+    @JoinColumn(name="hair_color_id")
+    @Access(AccessType.PROPERTY)
     public HairColor getHairColor()
     {
         return getPhysicalAttribute();

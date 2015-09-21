@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,8 +15,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  * Race 
@@ -39,31 +42,42 @@ public class Race implements Serializable
     @Column
     private Long version;
     
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
+    @Cascade(CascadeType.SAVE_UPDATE)
     private Race    parent;
     
     @Column(nullable=false)
     private String  name;
     
     @Column
-    private boolean selectable;
+    private Boolean selectable;
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="parent")
+    @OneToOne
+    @Cascade(CascadeType.ALL)
+    private RaceAge age;
+    
+    @OneToMany(mappedBy="parent")
+    @Cascade(CascadeType.ALL)
     private List<Race>  children = new ArrayList<Race>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="race", fetch=FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private List<RaceSkinColor>  skinColors = new ArrayList<RaceSkinColor>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="race", fetch=FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private List<RaceHairColor>  hairColors = new ArrayList<RaceHairColor>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="race", fetch=FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private List<RaceEyeColor>   eyeColors = new ArrayList<RaceEyeColor>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="race", fetch=FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private List<RaceComplexion> complexions = new ArrayList<RaceComplexion>();
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="race", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy="race", fetch=FetchType.EAGER)
+    @Cascade(CascadeType.ALL)
     private List<RaceStat> raceStats = new ArrayList<RaceStat>();
     
     /**
@@ -90,19 +104,19 @@ public class Race implements Serializable
     }
 
     /**
-     * @return the version
-     */
-    public Long getVersion()
-    {
-        return version;
-    }
-
-    /**
      * @param id The id to set.
      */
     public void setId(Long id)
     {
         this.id = id;
+    }
+
+    /**
+     * @return the version
+     */
+    public Long getVersion()
+    {
+        return version;
     }
 
     /**
@@ -140,7 +154,7 @@ public class Race implements Serializable
     /**
      * @return Returns the selectable.
      */
-    public boolean isSelectable()
+    public Boolean isSelectable()
     {
         return selectable;
     }
@@ -148,7 +162,7 @@ public class Race implements Serializable
     /**
      * @param selectable The selectable to set.
      */
-    public void setSelectable(boolean selectable)
+    public void setSelectable(Boolean selectable)
     {
         this.selectable = selectable;
     }
@@ -176,6 +190,22 @@ public class Race implements Serializable
     {
         child.setParent(this);
         children.add(child);
+    }
+
+    /**
+     * @return the age
+     */
+    public RaceAge getAge()
+    {
+        return age;
+    }
+
+    /**
+     * @param age the age to set
+     */
+    public void setAge(RaceAge age)
+    {
+        this.age = age;
     }
 
     /**
@@ -292,5 +322,14 @@ public class Race implements Serializable
     public void setRaceStats(List<RaceStat> raceStats)
     {
         this.raceStats = raceStats;
+    }
+
+    /**
+     * @param stat the stat to add
+     */
+    public void addStat(RaceStat stat)
+    {
+        stat.setRace(this);
+        raceStats.add(stat);
     }
 }

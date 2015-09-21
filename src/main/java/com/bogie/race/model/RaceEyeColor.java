@@ -5,7 +5,12 @@ package com.bogie.race.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.bogie.common.model.EyeColor;
@@ -41,6 +46,9 @@ public class RaceEyeColor extends RacePhysicalAttribute<EyeColor> implements Ser
     /**
      * @return the eyeColor
      */
+    @ManyToOne(optional=false, cascade=CascadeType.ALL)
+    @JoinColumn(name="eye_color_id")
+    @Access(AccessType.PROPERTY)
     public EyeColor getEyeColor()
     {
         return getPhysicalAttribute();

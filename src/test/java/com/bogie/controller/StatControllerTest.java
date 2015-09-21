@@ -8,14 +8,20 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.bogie.TestAppConfig;
 import com.bogie.common.model.Stat;
 
 /**
  * @author rhogue
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestAppConfig.class})
 public class StatControllerTest extends BaseControllerTest
 {
     @Autowired
@@ -90,6 +96,8 @@ public class StatControllerTest extends BaseControllerTest
     @Test
     public void testGetStats()
     {
+        statController.updateStat(getTestStat());
+
         List<Stat>  stats = statController.getStats();
         
         assertNotNull(stats);
