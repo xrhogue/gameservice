@@ -15,6 +15,7 @@ import com.bogie.controller.GameController;
 @ContextConfiguration(classes = {TestAppConfig.class})
 public class GameControllerTest extends BaseControllerTest
 {
+    @SuppressWarnings("unused")
     @Autowired
     private GameController  gameController;
     

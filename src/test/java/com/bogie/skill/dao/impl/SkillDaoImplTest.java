@@ -22,6 +22,7 @@ import com.bogie.skill.model.Skill;
 @ContextConfiguration(classes = {TestAppConfig.class})
 public class SkillDaoImplTest extends BaseTest
 {
+    @SuppressWarnings("unused")
     @Autowired
     private GenericDao<Long, Stat>    statDao;
     

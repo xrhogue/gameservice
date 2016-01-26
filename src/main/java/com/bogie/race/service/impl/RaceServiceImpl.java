@@ -30,9 +30,13 @@ public class RaceServiceImpl implements RaceService
 {
     @Autowired
     private RaceDao                                 raceDao;
+    @SuppressWarnings("unused")
     private PhysicalAppearanceDao<RaceComplexion>   raceComplexionDao;
+    @SuppressWarnings("unused")
     private PhysicalAppearanceDao<RaceSkinColor>    raceSkinColorDao;
+    @SuppressWarnings("unused")
     private PhysicalAppearanceDao<RaceHairColor>    raceHairColorDao;
+    @SuppressWarnings("unused")
     private PhysicalAppearanceDao<RaceEyeColor>     raceEyeColorDao;
 
     /**
