@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,7 @@ import com.bogie.race.lib.model.Race;
 import com.bogie.race.lib.model.RaceComplexion;
 
 @RestController
+@RequestMapping("/races")
 public class RaceController
 {
     @Autowired
@@ -24,31 +26,37 @@ public class RaceController
     {
     }
     
-    @RequestMapping("/race")
-    public Race getRace(@RequestParam(value="id", required=true) Long id)
+    @RequestMapping(value="/{id}", method=RequestMethod.GET)
+    public Race getRace(@PathVariable("id") Long id)
     {
         return raceService.getRace(id);
     }
     
-    @RequestMapping("/race/update")
+    @RequestMapping(value="/", method=RequestMethod.POST)
+    public void createRace(@RequestBody Race race)
+    {
+        raceService.saveRace(race);
+    }
+    
+    @RequestMapping(value="/", method=RequestMethod.PUT)
     public void updateRace(@RequestBody Race race)
     {
         raceService.saveRace(race);
     }
     
-    @RequestMapping("/race/delete")
-    public void deleteRace(@RequestParam(value="id", required=true) Long id)
+    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    public void deleteRace(@PathVariable("id") Long id)
     {
         raceService.deleteRace(id);
     }
     
-    @RequestMapping("/race/list")
+    @RequestMapping("/")
     public List<Race> getRaces(@RequestParam(value="filter", required=false, defaultValue="") String filter)
     {
         return raceService.findAllRaces();
     }
     
-    @RequestMapping("/race/{id}/complexion/list")
+    @RequestMapping("/{id}/complexion/list")
     public Set<RaceComplexion> getRaceComplexions(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getComplexions();

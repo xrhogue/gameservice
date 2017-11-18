@@ -37,15 +37,15 @@
 	             					<tr>
 										<td class="lbl">Short Name</td>
 										<td>
-											<input type="text" name="shortForm" data-ng-model="item.shortForm" ng-minlength="3" ng-maxlength="3" required ng-pattern="/[A-Z]{3}/" uppercase tooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Short Name consists of 3 uppercase characters">
+											<input type="text" name="shortForm" data-ng-model="item.shortForm" ng-minlength="3" ng-maxlength="3" required="true" ng-pattern="/[A-Z]{3}/" uppercase="true" tooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Short Name consists of 3 uppercase characters"></input>
 											<span class ="error" ng-show="statDlg.shortForm.$error.required">Requires 3 uppercase letters</span>
 											<span class ="error" ng-show="statDlg.shortForm.$error.minlength">Requires 3 uppercase letters</span>
 											<span class ="error" ng-show="statDlg.shortForm.$error.maxlength">Requires 3 uppercase letters</span>
 											<span class ="error" ng-show="statDlg.shortForm.$error.pattern">Requires 3 uppercase letters</span>
 										</td>
 									</tr>
-	             					<tr><td>Long Name</td><td><input type="text" data-ng-model="item.longForm" capitalizetooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Long Name is the complete name of the attribute"/></td></tr>
-	             					<tr><td>Multiplier</td><td><input type="number" data-ng-model="item.multiplier" ng-min="1" ng-max="4" check-range ng-required/></td></tr>
+	             					<tr><td>Long Name</td><td><input type="text" data-ng-model="item.longForm" capitalizetooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Long Name is the complete name of the attribute"></input></td></tr>
+	             					<tr><td>Multiplier</td><td><input type="number" data-ng-model="item.multiplier" ng-min="1" ng-max="4" check-range="true" ng-required="true"></input></td></tr>
     	         					<tr>
 										<td></td>
 										<td>
@@ -54,8 +54,8 @@
 										</td>
 									</tr>
 								</table>
-								<tt>statDlg.shortForm.$valid = {{statDlg.shortForm.$valid}}</tt><br>
-  								<tt>statDlg.shortForm.$error = {{statDlg.shortForm.$error}}</tt><br>
+								<tt>statDlg.shortForm.$valid = {{statDlg.shortForm.$valid}}</tt><br></br>
+  								<tt>statDlg.shortForm.$error = {{statDlg.shortForm.$error}}</tt><br></br>
             	 			</form>
         				</div>
     				</script>

@@ -11,8 +11,11 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import com.bogie.common.bus.CommonService;
 import com.bogie.common.bus.impl.CommonServiceImpl;
@@ -20,6 +23,7 @@ import com.bogie.common.dao.GenericDao;
 import com.bogie.common.dao.impl.GenericDaoImpl;
 import com.bogie.common.lib.model.Complexion;
 import com.bogie.common.lib.model.EyeColor;
+import com.bogie.common.lib.model.Gender;
 import com.bogie.common.lib.model.HairColor;
 import com.bogie.common.lib.model.SkinColor;
 import com.bogie.common.lib.model.Stat;
@@ -48,6 +52,17 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     {
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
+    }
+    @Bean
+    public SpringResourceTemplateResolver templateResolver()
+    {
+        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+        
+        templateResolver.setCacheable(false);
+        templateResolver.setPrefix("classpath:/templates/");
+        templateResolver.setSuffix(".html");
+        
+        return templateResolver;
     }
 
     @Bean
@@ -126,6 +141,12 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     public PhysicalAppearanceDao<EyeColor> eyeColorDao()
     {
         return new PhysicalAppearanceDaoImpl<EyeColor>();
+    }
+
+    @Bean
+    public PhysicalAppearanceDao<Gender> genderDao()
+    {
+        return new PhysicalAppearanceDaoImpl<Gender>();
     }
 
     @Bean
