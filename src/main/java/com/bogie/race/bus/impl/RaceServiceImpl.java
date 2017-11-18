@@ -16,6 +16,8 @@ import com.bogie.race.lib.model.RaceEyeColor;
 import com.bogie.race.lib.model.RaceHairColor;
 import com.bogie.race.lib.model.RaceSkinColor;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * RaceServiceImpl 
  * 
@@ -25,29 +27,32 @@ import com.bogie.race.lib.model.RaceSkinColor;
 @org.springframework.transaction.annotation.Transactional
 public class RaceServiceImpl implements RaceService
 {
+    @Autowired 
     private RaceDao                                 raceDao;
-    private PhysicalAppearanceDao<RaceSkinColor>    raceSkinColorDao;
-    private PhysicalAppearanceDao<RaceHairColor>    raceHairColorDao;
-    private PhysicalAppearanceDao<RaceEyeColor>     raceEyeColorDao;
-    private PhysicalAppearanceDao<RaceComplexion>   raceComplexionDao;
     
-    public void setRaceDao(RaceDao x) { raceDao = x; }
-    public void setRaceSkinColorDao(PhysicalAppearanceDao<RaceSkinColor> x) { raceSkinColorDao = x; }
-    public void setRaceHairColorDao(PhysicalAppearanceDao<RaceHairColor> x) { raceHairColorDao = x; }
-    public void setRaceEyeColorDao(PhysicalAppearanceDao<RaceEyeColor> x) { raceEyeColorDao = x; }
-    public void setRaceComplexionDao(PhysicalAppearanceDao<RaceComplexion> x) { raceComplexionDao = x; }
+    @Autowired 
+    private PhysicalAppearanceDao<RaceSkinColor>    raceSkinColorDao;
+    
+    @Autowired 
+    private PhysicalAppearanceDao<RaceHairColor>    raceHairColorDao;
+    
+    @Autowired 
+    private PhysicalAppearanceDao<RaceEyeColor>     raceEyeColorDao;
+
+    @Autowired 
+    private PhysicalAppearanceDao<RaceComplexion>   raceComplexionDao;
 
     /**
      * @see com.bogie.race.bus.RaceService#getRace(java.lang.Long)
      */
-    public Race getRace(Long raceId)
+    public Race getRace(final Long raceId)
     {
         return raceDao.getRace(raceId);
     }
     /**
      * @see com.bogie.race.bus.RaceService#deleteRace(java.lang.Long)
      */
-    public void deleteRace(Long raceId)
+    public void deleteRace(final Long raceId)
     {
         raceDao.deleteRace(getRace(raceId));
     }
@@ -55,7 +60,7 @@ public class RaceServiceImpl implements RaceService
     /**
      * @see com.bogie.race.bus.RaceService#deleteRace(com.bogie.race.lib.vo.Race)
      */
-    public void deleteRace(Race race)
+    public void deleteRace(final Race race)
     {
         raceDao.deleteRace(race);
     }
@@ -63,7 +68,7 @@ public class RaceServiceImpl implements RaceService
     /**
      * @see com.bogie.race.bus.RaceService#saveRace(com.bogie.race.lib.vo.Race)
      */
-    public void saveRace(Race race)
+    public void saveRace(final Race race)
     {
         raceDao.saveRace(race);
     }
@@ -71,7 +76,7 @@ public class RaceServiceImpl implements RaceService
     /**
      * @see com.bogie.race.bus.RaceService#findRaces(com.bogie.race.lib.vo.Race)
      */
-    public List<Race> findRaces(Race parent)
+    public List<Race> findRaces(final Race parent)
     {
         return raceDao.findRaces(parent);
     }

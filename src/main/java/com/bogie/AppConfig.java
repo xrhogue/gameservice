@@ -11,11 +11,9 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 
 import com.bogie.common.bus.CommonService;
 import com.bogie.common.bus.impl.CommonServiceImpl;
@@ -36,6 +34,10 @@ import com.bogie.race.dao.PhysicalAppearanceDao;
 import com.bogie.race.dao.RaceDao;
 import com.bogie.race.dao.impl.PhysicalAppearanceDaoImpl;
 import com.bogie.race.dao.impl.RaceDaoImpl;
+import com.bogie.race.lib.model.RaceComplexion;
+import com.bogie.race.lib.model.RaceEyeColor;
+import com.bogie.race.lib.model.RaceHairColor;
+import com.bogie.race.lib.model.RaceSkinColor;
 import com.bogie.skill.bus.SkillService;
 import com.bogie.skill.bus.impl.SkillServiceImpl;
 import com.bogie.skill.dao.SkillDao;
@@ -148,6 +150,30 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     public PhysicalAppearanceDao<Gender> genderDao()
     {
         return new PhysicalAppearanceDaoImpl<Gender>();
+    }
+
+    @Bean
+    public PhysicalAppearanceDao<RaceComplexion> raceComplexionDao()
+    {
+        return new PhysicalAppearanceDaoImpl<RaceComplexion>();
+    }
+
+    @Bean
+    public PhysicalAppearanceDao<RaceSkinColor> raceSkinColorDao()
+    {
+        return new PhysicalAppearanceDaoImpl<RaceSkinColor>();
+    }
+
+    @Bean
+    public PhysicalAppearanceDao<RaceHairColor> raceHairColorDao()
+    {
+        return new PhysicalAppearanceDaoImpl<RaceHairColor>();
+    }
+
+    @Bean
+    public PhysicalAppearanceDao<RaceEyeColor> raceEyeColorDao()
+    {
+        return new PhysicalAppearanceDaoImpl<RaceEyeColor>();
     }
 
     @Bean

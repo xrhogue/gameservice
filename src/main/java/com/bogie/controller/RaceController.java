@@ -32,13 +32,13 @@ public class RaceController
         return raceService.getRace(id);
     }
     
-    @RequestMapping(value="/", method=RequestMethod.POST)
+    @RequestMapping(value="", method=RequestMethod.POST)
     public void createRace(@RequestBody Race race)
     {
         raceService.saveRace(race);
     }
     
-    @RequestMapping(value="/", method=RequestMethod.PUT)
+    @RequestMapping(value="", method=RequestMethod.PUT)
     public void updateRace(@RequestBody Race race)
     {
         raceService.saveRace(race);
@@ -50,7 +50,7 @@ public class RaceController
         raceService.deleteRace(id);
     }
     
-    @RequestMapping("/")
+    @RequestMapping("")
     public List<Race> getRaces(@RequestParam(value="filter", required=false, defaultValue="") String filter)
     {
         return raceService.findRaces();
