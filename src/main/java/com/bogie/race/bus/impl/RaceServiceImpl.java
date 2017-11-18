@@ -77,10 +77,10 @@ public class RaceServiceImpl implements RaceService
     }
 
     /**
-     * @see com.bogie.race.bus.RaceService#findAllRaces()
+     * @see com.bogie.race.bus.RaceService#findRaces()
      */
-    public List<Race> findAllRaces()
+    public List<Race> findRaces()
     {
-        return raceDao.findAllRaces();
+        return raceDao.findRaces();
     }
 }

@@ -51,9 +51,9 @@ public class RaceDaoImpl extends GenericDaoImpl<Long, Race> implements RaceDao
     }
 
     /**
-     * @see com.bogie.race.dao.RaceDao#findAllRaces()
+     * @see com.bogie.race.dao.RaceDao#findRaces()
      */
-    public List<Race> findAllRaces()
+    public List<Race> findRaces()
     {
         return find("from Race");
     }
