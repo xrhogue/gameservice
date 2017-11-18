@@ -53,10 +53,10 @@ public class RaceController
     @RequestMapping("/")
     public List<Race> getRaces(@RequestParam(value="filter", required=false, defaultValue="") String filter)
     {
-        return raceService.findAllRaces();
+        return raceService.findRaces();
     }
     
-    @RequestMapping("/{id}/complexion/list")
+    @RequestMapping(value="/{id}/complexions", method=RequestMethod.GET)
     public Set<RaceComplexion> getRaceComplexions(@PathVariable("id") Long id)
     {
         return raceService.getRace(id).getComplexions();

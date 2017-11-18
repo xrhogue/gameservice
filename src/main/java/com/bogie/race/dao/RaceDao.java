@@ -28,5 +28,5 @@ public interface RaceDao extends GenericDao<Long, Race>
      * @return the list of child races
      */
     List<Race>  findRaces(Race parent);
-    List<Race>  findAllRaces();
+    List<Race>  findRaces();
 }

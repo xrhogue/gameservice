@@ -22,7 +22,7 @@
 	});
 	
 	app.controller('StatsController', ['$scope', '$modal', '$log', '$window', 'StatService', function($scope, $modal, $log, $window, StatService) {
-		var cellTemplate='<div class="ngCellText" data-ng-model="row"><a data-ng-click="updateSelectedRow(row,$event)"><img alt="Edit" src="edit.png" height="16px" width="16px"/></a><a data-ng-click="deleteSelectedRow(row,$event)"><img alt="Delete" src="delete.png" height="16px" width="16px"/></a></div>';
+		var cellTemplate='<div class="ngCellText" data-ng-model="row"><a data-ng-click="updateSelectedRow(row,$event)"><img alt="Edit" src="/images/edit.png" height="16px" width="16px"/></a><a data-ng-click="deleteSelectedRow(row,$event)"><img alt="Delete" src="/images/delete.png" height="16px" width="16px"/></a></div>';
 		$scope.stats = StatService.query();
 		
 //		$scope.$on('ngGridEventEndCellEdit', function(evt) {

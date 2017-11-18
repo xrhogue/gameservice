@@ -52,6 +52,7 @@ public class AppConfig extends WebMvcAutoConfigurationAdapter
     {
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
         registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
+        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
     }
     @Bean
     public SpringResourceTemplateResolver templateResolver()

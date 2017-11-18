@@ -22,5 +22,5 @@ public interface RaceService
     void deleteRace(Long raceId);
     void deleteRace(Race race);
     List<Race> findRaces(Race parent);
-    List<Race> findAllRaces();
+    List<Race> findRaces();
 }
