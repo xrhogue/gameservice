@@ -70,9 +70,9 @@ public class SkillDaoImpl extends GenericDaoImpl<Long, Skill> implements SkillDa
     }
 
     /**
-     * @see com.bogie.skill.dao.SkillDao#findAllSkills()
+     * @see com.bogie.skill.dao.SkillDao#findSkills()
      */
-    public List<Skill> findAllSkills()
+    public List<Skill> findSkills()
     {
         return find("from Skill");
     }

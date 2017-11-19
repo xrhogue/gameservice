@@ -65,11 +65,11 @@ public class SkillServiceImpl implements SkillService
     }
 
     /**
-     * @see com.bogie.skill.bus.SkillService#findAllSkills()
+     * @see com.bogie.skill.bus.SkillService#findSkills()
      */
-    public List<Skill> findAllSkills()
+    public List<Skill> findSkills()
     {
-        return skillDao.findAllSkills();
+        return skillDao.findSkills();
     }
 
     /**

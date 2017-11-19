@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -48,35 +49,38 @@ public class Skill implements Serializable
     @Column(nullable=false)
     private String  name;
     
-    @Column
+    @Column(name="short_name")
     private String  shortName;
     
     @ManyToOne
     private Skill parent;
     
     @ManyToOne
-    @JoinTable(name="RACIAL_SKILL_MAP")
+    @JoinTable(name="racial_skills")
     private Race race;
     
     @Column(nullable=false)
     private boolean selectable = true;
     
-    @Column(nullable=false)
+    @Column(name="base_cost", nullable=false)
     private int baseCost = 3;
     
-    @Column(nullable=false)
+    @Column(name="level_cost", nullable=false)
     private int levelCost = 3;
     
     @ManyToOne(optional=false)
+    @JoinColumn(name="primary_stat_id", nullable=false)
     private Stat primaryStat;
     
     @OneToMany(cascade=CascadeType.ALL, mappedBy="parent", fetch=FetchType.EAGER)
     private Set<Skill>  children = new HashSet<Skill>();
     
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(name="skill_secondary_stats", joinColumns=@JoinColumn(name="skill_id"), inverseJoinColumns=@JoinColumn(name="stat_id"))
     private Set<Stat>   secondaryStats = new HashSet<Stat>();
     
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinTable(name="skill_prerequisites", joinColumns=@JoinColumn(name="skill_id"), inverseJoinColumns=@JoinColumn(name="prerequisite_id"))
     private Set<Skill> prerequisites = new HashSet<Skill>();
     
     /**

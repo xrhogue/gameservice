@@ -25,5 +25,5 @@ public interface SkillDao extends GenericDao<Long, Skill>
     
     List<Skill> findSkills(Long parentId);
     List<Skill> findSkills(Skill parent);
-    List<Skill> findAllSkills();
+    List<Skill> findSkills();
 }

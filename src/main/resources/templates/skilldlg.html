@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="game">
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="css/ng-grid.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/ng-grid.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+	</head>
+	<body ng-controller="skillController as skill">
+   		<div class="modal-header">
+   	    	<h3 class="modal-title">Edit Skill</h3>
+     	</div>
+  		<div class="modal-body" >
+        	<form>
+				<table>
+          			<tr><td class="lbl">Name</td><td><input type="text" data-ng-model="item.name" ng-required/></td></tr>
+          			<tr><td>Short Name</td><td><input type="text" data-ng-model="item.shortName" ng-minlength="1" ng-maxlength="12"/></td></tr>
+					<tr><td>Parent</td><td><input type="text" data-ng-model="item.parent.shortName" pattern="." ng-required/></td></tr>
+          			<tr><td>Primary Attribute</td><td><input type="text" data-ng-model="item.primaryStat.code" ng-minlength="1" ng-maxlength="1"/></td></tr>
+          			<tr><td>Secondary Attributes</td><td><input type="text" data-ng-model="item.secondaryStats[0].code" ng-minlength="1" ng-maxlength="1"/></td></tr>
+          			<tr><td>Base Cost</td><td><input type="number" data-ng-model="item.baseCost" ng-min="1" ng-max="1000" ng-required/></td></tr>
+          			<tr><td>Level Cost</td><td><input type="number" data-ng-model="item.levelCost" ng-min="1" ng-max="30" ng-required/></td></tr>
+          			<tr><td>Selectable</td><td><input type="checkbox" data-ng-model="item.selectable"/></td></tr>
+       				<tr>
+						<td></td>
+						<td>
+							<button class="primary" data-ng-click="ok()">Save</button>
+   	     					<button class="primary" data-ng-click="cancel()">Cancel</button>
+						</td>
+					</tr>
+				</table>
+       	 	</form>
+   		</div>
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script> -->
+		<script type="text/javascript" src="js/angular.js"></script>
+		<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+		<script type="text/javascript" src="js/ng-grid.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="../js/angular.js"></script>
+		<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+		<script type="text/javascript" src="../js/ng-grid.js"></script>
+		<script type="text/javascript" src="../js/app.js"></script>
+		<script type="text/javascript" src="../js/ui-bootstrap-tpls-0.11.2.js"></script>
+	</body>
+</html>

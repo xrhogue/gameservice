@@ -1,8 +1,14 @@
 (function() {
 	var app = angular.module('game', ['ngGrid', 'ngResource', 'ui.bootstrap']);
 	app.factory('StatService', ['$http', '$log', '$resource', function($http, $log, $resource) {						
-		return $resource("http://localhost:8080/stat/:verb", {verb: 'list'}, {
+		return $resource("/stat/:verb", {verb: 'list'}, {
 			getStats: {method: 'GET', isArray: true}
+		});
+	}]);
+	
+	app.factory('SkillService', ['$http', '$log', '$resource', function($http, $log, $resource) {						
+		return $resource("/skills", {}, {
+			getSkills: {method: 'GET', isArray: true}
 		});
 	}]);
 	
@@ -46,7 +52,7 @@
 			
 		    var modalInstance = $modal.open({
 		    	templateUrl: 'statDlg.html',
-		    	controller: ModalInstanceCtrl,
+		    	controller: StatModalInstanceCtrl,
 		    	resolve: {
 		    		item: function () {
 		    			return entity;
@@ -63,7 +69,7 @@
 			
 		    var modalInstance = $modal.open({
 		    	templateUrl: 'statDlg.html',
-		    	controller: ModalInstanceCtrl,
+		    	controller: StatModalInstanceCtrl,
 		    	resolve: {
 		    		item: function () {
 		    			return row.entity;
@@ -87,6 +93,77 @@
 		};
 	}]);
 	
+	app.controller('SkillController', ['$scope', '$modal', '$log', '$window', 'StatService', 'SkillService', function($scope, $modal, $log, $window, StatService, SkillService) {
+		var cellTemplate='<div class="ngCellText" data-ng-model="row"><a data-ng-click="updateSelectedRow(row,$event)"><img alt="Edit" src="/images/edit.png" height="16px" width="16px"/></a><a data-ng-click="deleteSelectedRow(row,$event)"><img alt="Delete" src="/images/delete.png" height="16px" width="16px"/></a></div>';
+		$scope.stats = StatService.query();
+		$scope.skills = SkillService.query();
+		
+		$scope.gridOptions = {
+				data : 'skills',
+				columnDefs: [{field: 'id', displayName: 'Id', cellClass: 'gridCellNumberStyle'},
+				             {field: 'name', displayName: 'Name'},
+				             {field: 'shortName', displayName: 'Short Name'},
+				             {field: 'primaryStat.code', displayName: 'Primary Attribute'},
+				             {field: 'baseCost', displayName: 'Base Cost', cellClass: 'gridCellNumberStyle'},
+				             {field: 'levelCost', displayName: 'Level Cost', cellClass: 'gridCellNumberStyle'},
+				             {field: 'selectable', displayName: 'Selectable', cellTemplate: '<input type="checkbox" ng-model="row.entity.selectable" ng-click="toggle(row.entity.selectable)">'},
+				             {field: '', cellTemplate: cellTemplate, width: '48px'}]
+		};
+		
+		$scope.addNewSkill = function() {
+			var entity = new SkillService();
+			
+			$scope.skills.push(entity);
+			
+		    var modalInstance = $modal.open({
+		    	templateUrl: 'skillDlg.html',
+		    	controller: SkillModalInstanceCtrl,
+		    	resolve: {
+		    		item: function () {
+		    			return entity;
+		    		},
+		    		stats: function () {
+		    			return $scope.stats;
+		    		},
+		    		skills: function () {
+		    			return $scope.skills;
+		    		}
+		    	}
+		    });			
+		};
+		
+		$scope.updateSelectedRow = function(row) {
+			$scope.myrow = row.entity;
+			
+		    var modalInstance = $modal.open({
+		    	templateUrl: 'skillDlg.html',
+		    	controller: SkillModalInstanceCtrl,
+		    	resolve: {
+		    		item: function () {
+		    			return row.entity;
+		    		},
+		    		stats: function () {
+		    			return $scope.stats;
+		    		},
+		    		skills: function () {
+		    			return $scope.skills;
+		    		}
+		    	}
+		    });
+		};
+	    
+		$scope.deleteSelectedRow = function(row) {
+			$scope.selectedItem = row.entity;
+			
+			var deleteItem = $window.confirm('Delete ' + $scope.selectedItem.name + '?');
+			
+			if (deleteItem) {				
+				$scope.skills.splice(row.rowIndex, 1);
+				$scope.selectedItem.$delete({method: 'DELETE', id: $scope.selectedItem.id});
+			}
+		};
+	}]);
+
 	app.directive('uppercase', ['$parse', function($parse) {
 		return {
 			restrict: 'A',
@@ -189,7 +266,7 @@
 		};
 	}]);
 	
-	var ModalInstanceCtrl = function ($scope, $modalInstance, item, stats) {
+	var StatModalInstanceCtrl = function ($scope, $modalInstance, item, stats) {
 		$scope.availableCodes = getAvailableCodes(stats);
 		$scope.item = item;
 		  
@@ -230,5 +307,44 @@
 			
 			return availableCodes;
 		}
+	};
+	
+	var SkillModalInstanceCtrl = function ($scope, $modalInstance, item, stats, skills) {
+		$scope.stats = stats;
+		$scope.item = item;
+		  
+		var id = item.id;
+		var name = item.name;
+		var shortName = item.shorName;
+		var primaryStat = item.primaryStat;
+		var baseCost = item.baseCost;
+		var levelCost = item.levelCost;
+		var selectable = item.selectable;
+		
+		if (item.primaryStat == null) {
+			item.primaryStat = stats[0];
+		}
+		
+		$scope.ok = function () {
+			item.$save({method: 'PUT', skill: item})
+			  
+			$modalInstance.close(item);
+		};
+
+		$scope.cancel = function () {
+			item.id = id;
+			item.name = name;
+			item.shortName = shortName;
+			item.primaryStat = primaryStat;
+			item.baseCost = baseCost;
+			item.levelCost = levelCost;
+			item.selectable = selectable;
+			
+			if (item.id == undefined) {
+				skills.pop();
+			}
+			
+			$modalInstance.dismiss('cancel');
+		};
 	};
 })();

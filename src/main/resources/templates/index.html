@@ -44,13 +44,13 @@
 											<span class ="error" ng-show="statDlg.shortForm.$error.pattern">Requires 3 uppercase letters</span>
 										</td>
 									</tr>
-	             					<tr><td>Long Name</td><td><input type="text" data-ng-model="item.longForm" capitalizetooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Long Name is the complete name of the attribute"></input></td></tr>
+	             					<tr><td>Long Name</td><td><input type="text" data-ng-model="item.longForm" capitalize="true" tooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Long Name is the complete name of the attribute"></input></td></tr>
 	             					<tr><td>Multiplier</td><td><input type="number" data-ng-model="item.multiplier" ng-min="1" ng-max="4" check-range="true" ng-required="true"></input></td></tr>
     	         					<tr>
 										<td></td>
 										<td>
-											<button class="primary" data-ng-click="ok()">save</button>
-        	     							<button class="primary" data-ng-click="cancel()">cancel</button>
+											<button class="primary" data-ng-click="ok()">Save</button>
+        	     							<button class="primary" data-ng-click="cancel()">Cancel</button>
 										</td>
 									</tr>
 								</table>
@@ -65,7 +65,43 @@
 				</div>
 			</div>
 			<div class="panel" ng-show="panel.isSelected(2)">
-				<h1>Skills</h1>
+				<div ng-controller="SkillController">
+					<script type="text/ng-template" id="skillDlg.html">
+    	    			<div class="modal-header">
+        	    			<h3 class="modal-title">Edit Skill</h3>
+          				</div>
+       					<div class="modal-body" >
+             				<form name="skillDlg">
+								<table>
+									<tr><td>Name</td><td><input type="text" name="name" data-ng-model="item.name" required="true" capitalize="true" tooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="The Name is the complete name of the skill"/></td></tr>
+	             					<tr>
+										<td class="lbl">Short Name</td>
+										<td>
+											<input type="text" name="shortName" data-ng-model="item.shortName" ng-maxlength="15" tooltip-trigger="mouseenter" tooltip-popup-delay="500" tooltip-placement="right" tooltip="An optional shorter name for the skill"></input>
+											<span class ="error" ng-show="skillDlg.shortName.$error.maxlength">Cannot exceed 15 characters in length</span>
+										</td>
+									</tr>
+									<tr><td>Primary Attribute</td><td><select name="primaryStat" data-ng-model="item.primaryStat" ng-options="stat.shortForm for stat in stats"/></td></tr>
+	             					<tr><td>Base Cost</td><td><input type="number" data-ng-model="item.baseCost" ng-min="1" ng-max="1000" check-range="true" ng-required="true"></input></td></tr>
+	             					<tr><td>Level Cost</td><td><input type="number" data-ng-model="item.levelCost" ng-min="1" ng-max="30" check-range="true" ng-required="true"></input></td></tr>
+	             					<tr><td>Selectable</td><td><input type="checkbox" data-ng-model="item.selectable"></input></td></tr>
+    	         					<tr>
+										<td></td>
+										<td>
+											<button class="primary" data-ng-click="ok()">Save</button>
+        	     							<button class="primary" data-ng-click="cancel()">Cancel</button>
+										</td>
+									</tr>
+								</table>
+								<tt>skillDlg.name.$valid = {{skillDlg.name.$valid}}</tt><br></br>
+  								<tt>skillDlg.name.$error = {{skillDlg.name.$error}}</tt><br></br>
+            	 			</form>
+        				</div>
+    				</script>
+					<h1>Skills</h1>
+					<button ng-click="addNewSkill()">New Skill</button>
+					<div ng-grid="gridOptions" class="gridStyle" style="width:600px;height:400px"></div>
+				</div>
 			</div>
 			<div class="panel" ng-show="panel.isSelected(3)">
 				<h1>Races</h1>

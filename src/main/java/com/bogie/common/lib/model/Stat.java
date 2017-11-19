@@ -38,10 +38,10 @@ public class Stat implements Serializable
     @Column
     private char code;
     
-    @Column
+    @Column(name="short_form")
     private String  shortForm;
     
-    @Column
+    @Column(name="long_form")
     private String  longForm;
     
     @Column

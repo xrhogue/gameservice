@@ -30,22 +30,22 @@ public class RaceAge implements Serializable
     @Column(nullable=false)
     private int id;
     
-    @Column(nullable=false)
+    @Column(name="young_age", nullable=false)
     private int youngAge;
     
-    @Column(nullable=false)
+    @Column(name="mature_age", nullable=false)
     private int matureAge;
     
-    @Column(nullable=false)
+    @Column(name="middle_age", nullable=false)
     private int middleAge;
     
-    @Column(nullable=false)
+    @Column(name="old_age", nullable=false)
     private int oldAge;
     
-    @Column(nullable=false)
+    @Column(name="venerable_age", nullable=false)
     private int venerableAge;
 
-    @Column(nullable=false)
+    @Column(name="max_age", nullable=false)
     private int maxAge;
     
     /**
