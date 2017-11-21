@@ -1,5 +1,6 @@
 (function() {
-	var app = angular.module('game', ['ngGrid', 'ngResource', 'ui.bootstrap']);
+	var app = angular.module('game', ['ngGrid', 'ngResource', 'ui.bootstrap', 'angularjs-dropdown-multiselect']);
+	
 	app.factory('StatService', ['$http', '$log', '$resource', function($http, $log, $resource) {						
 		return $resource("/stat/:verb", {verb: 'list'}, {
 			getStats: {method: 'GET', isArray: true}
@@ -95,7 +96,6 @@
 	
 	app.controller('SkillController', ['$scope', '$modal', '$log', '$window', 'StatService', 'SkillService', function($scope, $modal, $log, $window, StatService, SkillService) {
 		var cellTemplate='<div class="ngCellText" data-ng-model="row"><a data-ng-click="updateSelectedRow(row,$event)"><img alt="Edit" src="/images/edit.png" height="16px" width="16px"/></a><a data-ng-click="deleteSelectedRow(row,$event)"><img alt="Delete" src="/images/delete.png" height="16px" width="16px"/></a></div>';
-		$scope.stats = StatService.query();
 		$scope.skills = SkillService.query();
 		
 		$scope.gridOptions = {
@@ -104,6 +104,7 @@
 				             {field: 'name', displayName: 'Name'},
 				             {field: 'shortName', displayName: 'Short Name'},
 				             {field: 'primaryStat.code', displayName: 'Primary Attribute'},
+				             {field: 'secondaryStats', displayName: 'Secondary Attributes'},
 				             {field: 'baseCost', displayName: 'Base Cost', cellClass: 'gridCellNumberStyle'},
 				             {field: 'levelCost', displayName: 'Level Cost', cellClass: 'gridCellNumberStyle'},
 				             {field: 'selectable', displayName: 'Selectable', cellTemplate: '<input type="checkbox" ng-model="row.entity.selectable" ng-click="toggle(row.entity.selectable)">'},
@@ -123,7 +124,7 @@
 		    			return entity;
 		    		},
 		    		stats: function () {
-		    			return $scope.stats;
+		    			return StatService.query();
 		    		},
 		    		skills: function () {
 		    			return $scope.skills;
@@ -143,7 +144,23 @@
 		    			return row.entity;
 		    		},
 		    		stats: function () {
-		    			return $scope.stats;
+		    			return StatService.query().$promise.then(function (data) {
+	    					var stats = [];
+
+	    					if (data.length > 0) {
+		    					var	index = 0;
+		    					
+		    					while (index < data.length) {
+		    						var stat = data[index];
+		    					
+		    						stat.label = stat.shortForm;
+		    					
+		    						stats[index++] = stat;
+		    					}
+		    				}
+		    				
+		    				return stats;
+		    			});
 		    		},
 		    		skills: function () {
 		    			return $scope.skills;
@@ -317,6 +334,7 @@
 		var name = item.name;
 		var shortName = item.shorName;
 		var primaryStat = item.primaryStat;
+		var secondaryStats = item.secondaryStats;
 		var baseCost = item.baseCost;
 		var levelCost = item.levelCost;
 		var selectable = item.selectable;
@@ -324,6 +342,9 @@
 		if (item.primaryStat == null) {
 			item.primaryStat = stats[0];
 		}
+		
+		$scope.secondaryStats = [];
+		$scope.statSettings = { smartButtonMaxItems: 3, smartButtonTextConverter: function(itemText, originalItem) { return originalItem.code; } };
 		
 		$scope.ok = function () {
 			item.$save({method: 'PUT', skill: item})
@@ -336,6 +357,7 @@
 			item.name = name;
 			item.shortName = shortName;
 			item.primaryStat = primaryStat;
+			item.secondaryStats = secondaryStats;
 			item.baseCost = baseCost;
 			item.levelCost = levelCost;
 			item.selectable = selectable;

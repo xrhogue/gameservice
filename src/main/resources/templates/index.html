@@ -6,10 +6,11 @@
 		<link rel="stylesheet" type="text/css" href="css/ng-grid.css"/>
 		<link rel="stylesheet" type="text/css" href="css/style.css"/>
 		  -->
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/ng-grid.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/dialogs.min.css"/>
-		<link rel="stylesheet" type="text/css" href="../css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/ng-grid.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/dialogs.min.css"/>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
 	</head>
 	<body ng-controller="GameController as game">
 		<section ng-controller="PanelController as panel">
@@ -82,6 +83,12 @@
 										</td>
 									</tr>
 									<tr><td>Primary Attribute</td><td><select name="primaryStat" data-ng-model="item.primaryStat" ng-options="stat.shortForm for stat in stats"/></td></tr>
+									<tr>
+										<td>Secondary Attributes</td>
+										<td>
+											<div ng-dropdown-multiselect="" options="stats" selected-model="secondaryStats" extra-settings="statSettings"></div>
+										</td>
+									</tr>
 	             					<tr><td>Base Cost</td><td><input type="number" data-ng-model="item.baseCost" ng-min="1" ng-max="1000" check-range="true" ng-required="true"></input></td></tr>
 	             					<tr><td>Level Cost</td><td><input type="number" data-ng-model="item.levelCost" ng-min="1" ng-max="30" check-range="true" ng-required="true"></input></td></tr>
 	             					<tr><td>Selectable</td><td><input type="checkbox" data-ng-model="item.selectable"></input></td></tr>
@@ -116,6 +123,7 @@
 		<script type="text/javascript" src="js/ng-grid.js"></script>
 		<script type="text/javascript" src="js/angular-resource.js"></script>
 		<script type="text/javascript" src="js/ui-bootstrap-tpls-0.11.2.js"></script>
+		<script type="text/javascript" src="/js/angularjs-dropdown-multiselect.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
 		<script type="text/javascript" src="../js/bootstrap.js"></script>
